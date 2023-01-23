@@ -275,6 +275,7 @@ MonoBehaviour:
   cooridorPieces:
   - {fileID: 585899489181697109, guid: d17bc9c1cdef1c5448255edad31c1c61, type: 3}
   - {fileID: 2582703473974503245, guid: d2eb17f175564e84c8ad78ac03232e29, type: 3}
+  - {fileID: 1049341831540579861, guid: 3fb07e96bb0cae643a28994c86ddc64e, type: 3}
   branchPieces: []
   decorationPieces: []
   terminationPieces: []

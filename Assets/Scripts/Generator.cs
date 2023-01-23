@@ -57,20 +57,8 @@ namespace BlueScreenStudios.Jigsaw
 
                     yield return new WaitForSeconds(generationDelay);
 
-                    Vector3 inboundHookLocalRotation = inboundHook.transform.localRotation.eulerAngles;
-                    Vector3 outboundHookLocalRotation = outboundHook.transform.localRotation.eulerAngles;
-
-                    Debug.Log("Inbound Hook Local Rotation: " + inboundHookLocalRotation);
-                    Debug.Log("Outbound Hook Local Rotation: " + outboundHookLocalRotation);
-
-                    placedPiece.transform.rotation = Quaternion.Euler(inboundHookLocalRotation + outboundHookLocalRotation + new Vector3(0, 180, 0));
-                    Debug.Log("Roation");
-
-                    yield return new WaitForSeconds(generationDelay);
-
-                    Vector3 offset = outboundHook.transform.position - inboundHook.transform.position;
-                    placedPiece.transform.position = offset + previousPiece.transform.position;
-                    Debug.Log("Position");
+                    SetPieceRotation(placedPiece, outboundHook, inboundHook);
+                    SetPiecePosition(previousPiece, placedPiece, outboundHook, inboundHook);
 
                     CorrectBoundingBox(placedPiece);
 
@@ -85,6 +73,7 @@ namespace BlueScreenStudios.Jigsaw
             piece.boundingBox.center = piece.transform.position + new Vector3Int(0, 2, 0);
         }
 
+        #region Random_Selections
         private JigsawPiece SelectNextPiece(GeneratorPool pool)
         {
             int selectedPiece;
@@ -113,6 +102,32 @@ namespace BlueScreenStudios.Jigsaw
             int hookIndex = Mathf.RoundToInt(Random.Range(0, hooks.Length));
 
             return hooks[hookIndex];
+        }
+        #endregion Random_Selections
+
+
+        private void SetPieceRotation(JigsawPiece placedPiece, JigsawHook outboundHook, JigsawHook inboundHook)
+        {
+            Vector3 inboundHookLocalRotation = inboundHook.transform.localRotation.eulerAngles;
+            Vector3 outboundHookLocalRotation = outboundHook.transform.localRotation.eulerAngles;
+
+            Debug.Log(inboundHookLocalRotation + outboundHookLocalRotation);
+
+            placedPiece.transform.rotation = Quaternion.Euler(inboundHookLocalRotation + outboundHookLocalRotation + new Vector3(0, 180, 0));
+            Debug.Log("Roation");
+        }
+
+        /// <summary>
+        /// Snaps two jigsaw pieces together by matching the positions of their hooks
+        /// </summary>
+        /// <param name="previousPiece"></param>
+        /// <param name="placedPiece"></param>
+        /// <param name="outboundHook"></param>
+        /// <param name="inboundHook"></param>
+        private void SetPiecePosition(JigsawPiece previousPiece, JigsawPiece placedPiece, JigsawHook outboundHook, JigsawHook inboundHook)
+        {
+            Vector3 offset = outboundHook.transform.position - inboundHook.transform.position;
+            placedPiece.transform.position = offset + previousPiece.transform.position;
         }
     }
 }
