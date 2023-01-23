@@ -1,5 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
+using UnityEditor.SceneManagement;
+using Unity.VisualScripting.YamlDotNet.Core;
 
 namespace BlueScreenStudios.Jigsaw
 {
@@ -10,6 +13,7 @@ namespace BlueScreenStudios.Jigsaw
         [SerializeField] private int generationSteps;
         [Tooltip("The amount of times the generator should attempt to generate a piece before giving up")]
         [SerializeField] private int generationAttempts;
+        [SerializeField] private float generationDelay;
         
         [SerializeField] JigsawPiece startPiece;
 
@@ -26,30 +30,52 @@ namespace BlueScreenStudios.Jigsaw
 
         public enum GeneratorPool { Cooridor, Branch, Terminator, Decorations };
 
-        private void Start()
+        private IEnumerator Start()
         {
-            Instantiate(startPiece);
+            yield return new WaitForSeconds(generationDelay);
+
+            JigsawPiece previousPiece = Instantiate(startPiece);
 
             CorrectBoundingBox(startPiece);
 
-            JigsawPiece previousPiece = startPiece;
-
             for(int i = 0; i < generationSteps; i++)
             {
-                JigsawPiece nextPiece = SelectNextPiece(GeneratorPool.Cooridor);
-                JigsawHook[] previousPieceHooks = previousPiece.hooks;
-                JigsawHook[] nextPieceHooks = nextPiece.hooks;
+                yield return new WaitForSeconds(generationDelay);
 
-                
-                foreach(JigsawHook hook in nextPieceHooks)
+                foreach(JigsawHook outboundHook in previousPiece.hooks)
                 {
-                    Vector3 placementPosition = hook.transform.position + hook.transform.localPosition;
-                    Quaternion placmentRotation = Quaternion.identity;
-                    JigsawPiece piece = Instantiate(nextPiece, placementPosition, placmentRotation);
+                    yield return new WaitForSeconds(generationDelay);
 
-                    CorrectBoundingBox(piece);
+                    JigsawPiece piecePrefab = SelectNextPiece(GeneratorPool.Cooridor);
+
+                    JigsawPiece placedPiece = Instantiate(piecePrefab);
+                    JigsawHook inboundHook = SelectRandomHook(placedPiece);
+
+                    outboundHook.GetComponent<MeshRenderer>().enabled = true;
+                    inboundHook.GetComponent<MeshRenderer>().enabled = true;
+                    Debug.Log("Hooks");
+
+                    yield return new WaitForSeconds(generationDelay);
+
+                    Vector3 inboundHookLocalRotation = inboundHook.transform.localRotation.eulerAngles;
+                    Vector3 outboundHookLocalRotation = outboundHook.transform.localRotation.eulerAngles;
+
+                    Debug.Log("Inbound Hook Local Rotation: " + inboundHookLocalRotation);
+                    Debug.Log("Outbound Hook Local Rotation: " + outboundHookLocalRotation);
+
+                    placedPiece.transform.rotation = Quaternion.Euler(inboundHookLocalRotation + outboundHookLocalRotation + new Vector3(0, 180, 0));
+                    Debug.Log("Roation");
+
+                    yield return new WaitForSeconds(generationDelay);
+
+                    Vector3 offset = outboundHook.transform.position - inboundHook.transform.position;
+                    placedPiece.transform.position = offset + previousPiece.transform.position;
+                    Debug.Log("Position");
+
+                    CorrectBoundingBox(placedPiece);
+
+                    yield return new WaitForSeconds(generationDelay);
                 }
-
             }
 
         }
@@ -78,6 +104,15 @@ namespace BlueScreenStudios.Jigsaw
                     selectedPiece = Mathf.RoundToInt(Random.Range(0, terminationPieces.Length));
                     return terminationPieces[selectedPiece];
             }
+        }
+
+        private JigsawHook SelectRandomHook(JigsawPiece piece)
+        {
+            JigsawHook[] hooks = piece.hooks;
+
+            int hookIndex = Mathf.RoundToInt(Random.Range(0, hooks.Length));
+
+            return hooks[hookIndex];
         }
     }
 }

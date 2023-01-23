@@ -9,11 +9,11 @@ namespace BlueScreenStudios.Jigsaw
         [Tooltip("The pool the generator should select from when placing the next piece")]
         [SerializeField] Generator.GeneratorPool connectionPool;
 
-        [SerializeField] private bool outboundConnection;
+        internal bool connected = false;
 
-        private void OnDrawGizmos()
+        private void Awake()
         {
-            //Gizmos.DrawSphere(transform.position, 1f);
+            GetComponent<MeshRenderer>().enabled = false;
         }
     }
 }
