@@ -7,7 +7,7 @@ namespace BlueScreenStudios.Jigsaw
     public class JigsawHook : MonoBehaviour
     {
         [Tooltip("The pool the generator should select from when placing the next piece")]
-        [SerializeField] Generator.GeneratorPool connectionPool;
+        [SerializeField] internal Generator.GeneratorPool connectionPool;
 
         internal bool connected = false;
 

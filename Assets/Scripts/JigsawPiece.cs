@@ -6,7 +6,7 @@ namespace BlueScreenStudios.Jigsaw
     {
         [Header("Jigsaw Piece Info")]
         [Tooltip("What generator pool does this jigsaw piece belong too.")]
-        [SerializeField] Generator.GeneratorPool pool;
+        [SerializeField] internal Generator.GeneratorPool pool;
         [SerializeField] internal JigsawHook[] hooks;
     }
 }

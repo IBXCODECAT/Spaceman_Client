@@ -267,15 +267,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f4b351143631443830f36ab5f7d2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generationSteps: 1
+  generationSteps: 10
   generationAttempts: 1
-  generationDelay: 0.1
+  generationDelay: 0.025
   startPiece: {fileID: 585899489181697109, guid: d17bc9c1cdef1c5448255edad31c1c61,
     type: 3}
   cooridorPieces:
   - {fileID: 585899489181697109, guid: d17bc9c1cdef1c5448255edad31c1c61, type: 3}
   - {fileID: 2582703473974503245, guid: d2eb17f175564e84c8ad78ac03232e29, type: 3}
   - {fileID: 1049341831540579861, guid: 3fb07e96bb0cae643a28994c86ddc64e, type: 3}
+  - {fileID: 5682184307983271126, guid: 64b3f36e835346747865afbf6cf62acf, type: 3}
+  - {fileID: 5682184307983271126, guid: 64b3f36e835346747865afbf6cf62acf, type: 3}
+  - {fileID: 5682184307983271126, guid: 64b3f36e835346747865afbf6cf62acf, type: 3}
+  - {fileID: 5682184307983271126, guid: 64b3f36e835346747865afbf6cf62acf, type: 3}
+  - {fileID: 5682184307983271126, guid: 64b3f36e835346747865afbf6cf62acf, type: 3}
+  - {fileID: 5682184307983271126, guid: 64b3f36e835346747865afbf6cf62acf, type: 3}
   - {fileID: 5682184307983271126, guid: 64b3f36e835346747865afbf6cf62acf, type: 3}
   branchPieces: []
   decorationPieces: []

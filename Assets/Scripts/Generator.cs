@@ -1,8 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using UnityEditor.SceneManagement;
-using Unity.VisualScripting.YamlDotNet.Core;
 
 namespace BlueScreenStudios.Jigsaw
 {
@@ -31,14 +29,9 @@ namespace BlueScreenStudios.Jigsaw
         #endregion Inspector
 
         /// <summary>
-        /// Contains all jigsaw pieces that were generated in the previous generation step
+        /// Contains a list of all unconnected hooks in the generated level
         /// </summary>
-        private List<JigsawPiece> lastStepGeneratedPieces = new List<JigsawPiece>();
-        
-        /// <summary>
-        /// Contains a list of all jigsaw hooks that were not connected so far
-        /// </summary>
-        private List<JigsawHook> unconnectedJigsawHooks = new List<JigsawHook>();
+        private List<JigsawHook> unconnectedHooks = new List<JigsawHook>();
 
         public enum GeneratorPool { Cooridor, Branch, Terminator, Decorations };
 
@@ -55,28 +48,46 @@ namespace BlueScreenStudios.Jigsaw
         {
             JigsawPiece previousPiece = Instantiate(startPiece, new Vector3(0, -10, 0), Quaternion.identity);
 
+            UpdateUnconnectedHooks(previousPiece);
+
+            //For every generation step...
             for(int i = 0; i < generationSteps; i++)
             {
                 Debug.Log("Starting Generation Step " + generationSteps + ".");
 
-                foreach(JigsawHook outboundHook in previousPiece.hooks)
+
+                //Create a temperary list of jigsawy peices we generated this step
+                List<JigsawPiece> generatedPieces = new List<JigsawPiece>();
+
+                //For each outbound hook attatched to the prvious peice we are generating off of
+                foreach(JigsawHook outboundHook in unconnectedHooks)
                 {
-                    JigsawPiece piecePrefab = SelectNextPiece(GeneratorPool.Cooridor);
-                    Debug.Log("Instantiating piece " + piecePrefab.name);
+                    //If the outbound hook is not already connected...
+                    if(!outboundHook.connected)
+                    {
+                        //Select a piece prefab from the appropriate pool defined by the outbound hook
+                        JigsawPiece piecePrefab = SelectNextPiece(outboundHook.connectionPool);
+                        Debug.Log("Instantiating piece " + piecePrefab.name);
 
-                    JigsawPiece placedPiece = Instantiate(piecePrefab);
-                    JigsawHook inboundHook = SelectRandomHook(placedPiece);
-                    Debug.Log("Selected random inbound hook " + inboundHook.name + " for " + placedPiece.name + ".");
-                    Debug.Log("Using outbound hook " + outboundHook.name + " for this jigsaw placment.");
+                        JigsawPiece placedPiece = Instantiate(piecePrefab);
+                        JigsawHook inboundHook = SelectRandomHook(placedPiece);
+                        Debug.Log("Selected random inbound hook " + inboundHook.name + " for " + placedPiece.name + ".");
+                        Debug.Log("Using outbound hook " + outboundHook.name + " for this jigsaw placment.");
 
-                    outboundHook.GetComponent<MeshRenderer>().enabled = true;
-                    inboundHook.GetComponent<MeshRenderer>().enabled = true;
+                        outboundHook.GetComponent<MeshRenderer>().enabled = true;
+                        inboundHook.GetComponent<MeshRenderer>().enabled = true;
 
-                    SetPlacedJigsawPieceRotation(placedPiece, outboundHook, inboundHook);
-                    SetPiecePosition(previousPiece, placedPiece, outboundHook, inboundHook);
+                        SetPlacedJigsawPieceRotation(placedPiece, outboundHook, inboundHook);
+                        SetPiecePosition(previousPiece, placedPiece, outboundHook, inboundHook);
 
-                    yield return new WaitForSeconds(generationDelay);
+                        generatedPieces.Add(placedPiece);
+
+                        yield return new WaitForSeconds(generationDelay);
+                    }
                 }
+
+                
+                UpdateUnconnectedHooks(generatedPieces);
             }
 
         }
@@ -113,7 +124,44 @@ namespace BlueScreenStudios.Jigsaw
         }
         #endregion Random_Selections
 
-        
+        #region Jigsaw_Hook_Management
+
+        private void UpdateUnconnectedHooks(List<JigsawPiece> generatedPieces)
+        {
+            foreach(JigsawPiece jigsawPiece in generatedPieces)
+            {
+                foreach (JigsawHook hook in jigsawPiece.hooks)
+                {
+                    if (!hook.connected)
+                    {
+                        unconnectedHooks.Add(hook);
+                    }
+                    else
+                    {
+                        unconnectedHooks.Remove(hook);
+                    }
+                }
+            }
+
+            generatedPieces.Clear();
+        }
+
+        private void UpdateUnconnectedHooks(JigsawPiece jigsawPiece)
+        {
+            foreach (JigsawHook hook in jigsawPiece.hooks)
+            {
+                if (!hook.connected)
+                {
+                    unconnectedHooks.Add(hook);
+                }
+                else
+                {
+                    unconnectedHooks.Remove(hook);
+                }
+            }
+        }
+        #endregion Jigsaw_Hook_Management
+
         #region Placment_Methods
         /// <summary>
         /// Sets a placed jigsaw piece's rotation so that its hook aligns with the placment of the piece's hook it will join to
@@ -167,9 +215,6 @@ namespace BlueScreenStudios.Jigsaw
 
             //Set the connection capsules color for debugging purposes
             SetConnectionColor(inboundHook, outboundHook);
-
-            //Add the piece we just placed to the list of pieces we generated in the previous step for the next generation step to access
-            lastStepGeneratedPieces.Add(placedPiece);
         }
         #endregion Placement_Methods
 
