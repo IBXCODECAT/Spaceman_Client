@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace BlueScreenStudios.Jigsaw
+namespace BlueScreenStudios.JigsawSystem
 {
     public class JigsawHook : MonoBehaviour
     {
-        [Tooltip("The pool the generator should select from when placing the next piece")]
-        [SerializeField] internal Generator.GeneratorPool connectionPool;
+        [Tooltip("What pool should the generator choose from when placing the next piece?")]
+        [SerializeField] internal JigsawGenerator.GeneratorPool primaryConnectionPool;
+
+        [Tooltip("If an object from the primary connection pool can not be placed, what should the generator try instead?")]
+        [SerializeField] internal JigsawGenerator.GeneratorPool secondaryConnectionPool;
 
         internal bool connected = false;
 
