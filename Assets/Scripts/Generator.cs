@@ -34,7 +34,7 @@ namespace BlueScreenStudios.Jigsaw
         {
             yield return new WaitForSeconds(generationDelay);
 
-            JigsawPiece previousPiece = Instantiate(startPiece);
+            JigsawPiece previousPiece = Instantiate(startPiece, new Vector3(0, 0, 0), Quaternion.identity);
 
             CorrectBoundingBox(startPiece);
 
@@ -108,13 +108,47 @@ namespace BlueScreenStudios.Jigsaw
 
         private void SetPieceRotation(JigsawPiece placedPiece, JigsawHook outboundHook, JigsawHook inboundHook)
         {
-            Vector3 inboundHookLocalRotation = inboundHook.transform.localRotation.eulerAngles;
-            Vector3 outboundHookLocalRotation = outboundHook.transform.localRotation.eulerAngles;
+            Vector3 inboundHookRotation = inboundHook.transform.rotation.eulerAngles;
+            Vector3 outboundHookRotation = outboundHook.transform.rotation.eulerAngles;
 
-            Debug.Log(inboundHookLocalRotation + outboundHookLocalRotation);
+            Debug.Log(inboundHookRotation.y + " | " + outboundHookRotation.y);
 
-            placedPiece.transform.rotation = Quaternion.Euler(inboundHookLocalRotation + outboundHookLocalRotation + new Vector3(0, 180, 0));
-            Debug.Log("Roation");
+            float hookRotationOffset;
+
+            if(outboundHookRotation.y >= inboundHookRotation.y)
+            {
+                hookRotationOffset = outboundHookRotation.y - inboundHookRotation.y;
+            }
+            else
+            {
+                hookRotationOffset = inboundHookRotation.y - outboundHookRotation.y;
+            }
+
+            Debug.Log(hookRotationOffset);
+
+            /*//If the hook rotations have no difference the piece must be placed 180
+            if(inboundHookRotation.y == outboundHookRotation.y)
+            {
+                placedPiece.transform.Rotate(new Vector3(0, 180, 0));
+            }*/
+
+            if(hookRotationOffset == 180)
+            {
+                Debug.Log("Jigsaw piece rotated correctly", placedPiece);    
+            }
+            else
+            {
+                if (hookRotationOffset == 0)
+                {
+                    Debug.Log("Flipped 180 Degrees", placedPiece);
+                    placedPiece.transform.Rotate(new Vector3(0, 180, 0));
+                }
+                else
+                {
+                    Debug.Log("Jigsaw piece rotated incorectly, fixing..." + -hookRotationOffset + "?", placedPiece);
+                    placedPiece.transform.Rotate(new Vector3(0, -hookRotationOffset, 0));
+                }
+            }
         }
 
         /// <summary>

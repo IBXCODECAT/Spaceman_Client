@@ -269,7 +269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generationSteps: 1
   generationAttempts: 1
-  generationDelay: 2
+  generationDelay: 0.1
   startPiece: {fileID: 585899489181697109, guid: d17bc9c1cdef1c5448255edad31c1c61,
     type: 3}
   cooridorPieces:
