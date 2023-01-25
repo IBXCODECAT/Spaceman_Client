@@ -1962,9 +1962,6 @@ MonoBehaviour:
   hooks:
   - {fileID: 7940338250631614011}
   - {fileID: 3045571584924949050}
-  boundingBox:
-    m_Center: {x: 0, y: 2, z: 0}
-    m_Extent: {x: 6, y: 2, z: 6}
 --- !u!1 &152364
 GameObject:
   m_ObjectHideFlags: 0
@@ -3324,7 +3321,7 @@ GameObject:
   - component: {fileID: 5892478464819488696}
   - component: {fileID: 2604105935067435641}
   m_Layer: 0
-  m_Name: Connection
+  m_Name: Connection 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3421,7 +3418,7 @@ GameObject:
   - component: {fileID: 1496703797665834931}
   - component: {fileID: 7425273244091046179}
   m_Layer: 0
-  m_Name: Connection
+  m_Name: Connection 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

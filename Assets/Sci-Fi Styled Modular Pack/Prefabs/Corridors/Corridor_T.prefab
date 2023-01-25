@@ -2361,9 +2361,6 @@ MonoBehaviour:
   - {fileID: 7174763082219397941}
   - {fileID: 6737030203939570585}
   - {fileID: 2621629764367280651}
-  boundingBox:
-    m_Center: {x: 0, y: 2, z: 0}
-    m_Extent: {x: 6, y: 2, z: 6}
 --- !u!1 &166402
 GameObject:
   m_ObjectHideFlags: 0
@@ -3687,7 +3684,7 @@ GameObject:
   - component: {fileID: 6886939987096583251}
   - component: {fileID: 5096573311345588835}
   m_Layer: 0
-  m_Name: Connection
+  m_Name: Connection 0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3818,7 +3815,7 @@ GameObject:
   - component: {fileID: 2604510763461610810}
   - component: {fileID: 6733895505183695860}
   m_Layer: 0
-  m_Name: Connection
+  m_Name: Connection 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3915,7 +3912,7 @@ GameObject:
   - component: {fileID: 4123130675560393847}
   - component: {fileID: 2644335434741306430}
   m_Layer: 0
-  m_Name: Connection
+  m_Name: Connection 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

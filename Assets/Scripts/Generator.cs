@@ -8,6 +8,7 @@ namespace BlueScreenStudios.Jigsaw
 {
     public class Generator : MonoBehaviour
     {
+        #region Inspector
         [Header("Generator Settings")]
         [Tooltip("The steps the generator should run through")]
         [SerializeField] private int generationSteps;
@@ -27,50 +28,57 @@ namespace BlueScreenStudios.Jigsaw
         [SerializeField] private float cooridorPlacementProbability;
         [SerializeField] private float BranchPlacementProbablity;
         [SerializeField] private float DecorationPlacementProbablity;
+        #endregion Inspector
+
+        /// <summary>
+        /// Contains all jigsaw pieces that were generated in the previous generation step
+        /// </summary>
+        private List<JigsawPiece> lastStepGeneratedPieces = new List<JigsawPiece>();
+        
+        /// <summary>
+        /// Contains a list of all jigsaw hooks that were not connected so far
+        /// </summary>
+        private List<JigsawHook> unconnectedJigsawHooks = new List<JigsawHook>();
 
         public enum GeneratorPool { Cooridor, Branch, Terminator, Decorations };
 
-        private IEnumerator Start()
+        private void Update()
         {
-            yield return new WaitForSeconds(generationDelay);
+            if(Input.GetKeyDown(KeyCode.F5))
+            {
+                StopAllCoroutines();
+                StartCoroutine(GenerateLevel());
+            }
+        }
 
-            JigsawPiece previousPiece = Instantiate(startPiece, new Vector3(0, 0, 0), Quaternion.identity);
-
-            CorrectBoundingBox(startPiece);
+        private IEnumerator GenerateLevel()
+        {
+            JigsawPiece previousPiece = Instantiate(startPiece, new Vector3(0, -10, 0), Quaternion.identity);
 
             for(int i = 0; i < generationSteps; i++)
             {
-                yield return new WaitForSeconds(generationDelay);
+                Debug.Log("Starting Generation Step " + generationSteps + ".");
 
                 foreach(JigsawHook outboundHook in previousPiece.hooks)
                 {
-                    yield return new WaitForSeconds(generationDelay);
-
                     JigsawPiece piecePrefab = SelectNextPiece(GeneratorPool.Cooridor);
+                    Debug.Log("Instantiating piece " + piecePrefab.name);
 
                     JigsawPiece placedPiece = Instantiate(piecePrefab);
                     JigsawHook inboundHook = SelectRandomHook(placedPiece);
+                    Debug.Log("Selected random inbound hook " + inboundHook.name + " for " + placedPiece.name + ".");
+                    Debug.Log("Using outbound hook " + outboundHook.name + " for this jigsaw placment.");
 
                     outboundHook.GetComponent<MeshRenderer>().enabled = true;
                     inboundHook.GetComponent<MeshRenderer>().enabled = true;
-                    Debug.Log("Hooks");
 
-                    yield return new WaitForSeconds(generationDelay);
-
-                    SetPieceRotation(placedPiece, outboundHook, inboundHook);
+                    SetPlacedJigsawPieceRotation(placedPiece, outboundHook, inboundHook);
                     SetPiecePosition(previousPiece, placedPiece, outboundHook, inboundHook);
-
-                    CorrectBoundingBox(placedPiece);
 
                     yield return new WaitForSeconds(generationDelay);
                 }
             }
 
-        }
-
-        private void CorrectBoundingBox(JigsawPiece piece)
-        {
-            piece.boundingBox.center = piece.transform.position + new Vector3Int(0, 2, 0);
         }
 
         #region Random_Selections
@@ -105,47 +113,35 @@ namespace BlueScreenStudios.Jigsaw
         }
         #endregion Random_Selections
 
-
-        private void SetPieceRotation(JigsawPiece placedPiece, JigsawHook outboundHook, JigsawHook inboundHook)
+        
+        #region Placment_Methods
+        /// <summary>
+        /// Sets a placed jigsaw piece's rotation so that its hook aligns with the placment of the piece's hook it will join to
+        /// </summary>
+        /// <param name="placedPiece">The piece to rotate</param>
+        /// <param name="outboundHook">The outbound hook of the jigsaw piece we connect to</param>
+        /// <param name="inboundHook">The inbound hook of this jigsaw piece</param>
+        private void SetPlacedJigsawPieceRotation(JigsawPiece placedPiece, JigsawHook outboundHook, JigsawHook inboundHook)
         {
             Vector3 inboundHookRotation = inboundHook.transform.rotation.eulerAngles;
             Vector3 outboundHookRotation = outboundHook.transform.rotation.eulerAngles;
 
-            Debug.Log(inboundHookRotation.y + " | " + outboundHookRotation.y);
+            float hookRotationOffset = outboundHookRotation.y - inboundHookRotation.y;
 
-            float hookRotationOffset;
-
-            if(outboundHookRotation.y >= inboundHookRotation.y)
+            if(Mathf.Abs(hookRotationOffset) == 180)
             {
-                hookRotationOffset = outboundHookRotation.y - inboundHookRotation.y;
-            }
-            else
-            {
-                hookRotationOffset = inboundHookRotation.y - outboundHookRotation.y;
-            }
-
-            Debug.Log(hookRotationOffset);
-
-            /*//If the hook rotations have no difference the piece must be placed 180
-            if(inboundHookRotation.y == outboundHookRotation.y)
-            {
-                placedPiece.transform.Rotate(new Vector3(0, 180, 0));
-            }*/
-
-            if(hookRotationOffset == 180)
-            {
-                Debug.Log("Jigsaw piece rotated correctly", placedPiece);    
+                Debug.Log("Jigsaw piece " + placedPiece.name + " is already rotated correctly.", placedPiece);    
             }
             else
             {
                 if (hookRotationOffset == 0)
                 {
-                    Debug.Log("Flipped 180 Degrees", placedPiece);
+                    Debug.Log("Jigsaw piece " + placedPiece.name + " has been flipped 180 degrees.", placedPiece);
                     placedPiece.transform.Rotate(new Vector3(0, 180, 0));
                 }
                 else
                 {
-                    Debug.Log("Jigsaw piece rotated incorectly, fixing..." + -hookRotationOffset + "?", placedPiece);
+                    Debug.Log("Jigsaw piece " + placedPiece.name + " has been rotated " + -hookRotationOffset + " degrees.", placedPiece);
                     placedPiece.transform.Rotate(new Vector3(0, -hookRotationOffset, 0));
                 }
             }
@@ -160,8 +156,38 @@ namespace BlueScreenStudios.Jigsaw
         /// <param name="inboundHook"></param>
         private void SetPiecePosition(JigsawPiece previousPiece, JigsawPiece placedPiece, JigsawHook outboundHook, JigsawHook inboundHook)
         {
+            //Calculate the vector offset between the two hooks and snap the two pieces together
             Vector3 offset = outboundHook.transform.position - inboundHook.transform.position;
-            placedPiece.transform.position = offset + previousPiece.transform.position;
+            placedPiece.transform.position = new Vector3(offset.x + previousPiece.transform.position.x, outboundHook.transform.position.y, offset.z + previousPiece.transform.position.z);
+            Debug.Log("Jigsaw piece " + placedPiece.name + " has been snapped into place.");
+
+            //Establish the hooks we used as connected
+            inboundHook.connected = true;
+            outboundHook.connected = true;
+
+            //Set the connection capsules color for debugging purposes
+            SetConnectionColor(inboundHook, outboundHook);
+
+            //Add the piece we just placed to the list of pieces we generated in the previous step for the next generation step to access
+            lastStepGeneratedPieces.Add(placedPiece);
         }
+        #endregion Placement_Methods
+
+        #region Debug_Methods
+        /// <summary>
+        /// Sets a random color to the hooks representing this connection
+        /// </summary>
+        /// <param name="inboundHook">A reference to the inbound hook for this connection</param>
+        /// <param name="outboundHook">A reference to the outbound hook for this connection</param>
+        private void SetConnectionColor(JigsawHook inboundHook, JigsawHook outboundHook)
+        {
+            Color hookColor = Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+
+            Renderer inboundHookRender = inboundHook.GetComponent<Renderer>();
+            Renderer outboundHookRender = outboundHook.GetComponent<Renderer>();
+            inboundHookRender.material.SetColor("_BaseColor", hookColor);
+            outboundHookRender.material.SetColor("_BaseColor", hookColor);
+        }
+        #endregion Debug_Methods
     }
 }
