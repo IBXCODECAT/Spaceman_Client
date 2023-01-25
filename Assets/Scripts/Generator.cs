@@ -35,6 +35,14 @@ namespace BlueScreenStudios.Jigsaw
 
         public enum GeneratorPool { Cooridor, Branch, Terminator, Decorations };
 
+        JigsawPiece previousPiece = null;
+
+        private void Start()
+        {
+            previousPiece = Instantiate(startPiece, new Vector3(0, -10, 0), Quaternion.identity);
+            UpdateUnconnectedHooks(previousPiece);
+        }
+
         private void Update()
         {
             if(Input.GetKeyDown(KeyCode.F5))
@@ -46,10 +54,6 @@ namespace BlueScreenStudios.Jigsaw
 
         private IEnumerator GenerateLevel()
         {
-            JigsawPiece previousPiece = Instantiate(startPiece, new Vector3(0, -10, 0), Quaternion.identity);
-
-            UpdateUnconnectedHooks(previousPiece);
-
             //For every generation step...
             for(int i = 0; i < generationSteps; i++)
             {

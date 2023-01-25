@@ -267,7 +267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f4b351143631443830f36ab5f7d2c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  generationSteps: 10
+  generationSteps: 1
   generationAttempts: 1
   generationDelay: 0.025
   startPiece: {fileID: 585899489181697109, guid: d17bc9c1cdef1c5448255edad31c1c61,
