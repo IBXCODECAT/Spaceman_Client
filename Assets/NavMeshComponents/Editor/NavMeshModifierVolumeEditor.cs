@@ -3,6 +3,8 @@ using UnityEditorInternal;
 using UnityEngine.AI;
 using UnityEngine;
 
+using BlueScreenStudios.AI;
+
 namespace UnityEditor.AI
 {
     [CanEditMultipleObjects]

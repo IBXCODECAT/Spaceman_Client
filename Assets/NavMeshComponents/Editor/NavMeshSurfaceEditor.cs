@@ -1,10 +1,16 @@
 #define NAVMESHCOMPONENTS_SHOW_NAVMESHDATA_REF
 
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using UnityEditor.Experimental.SceneManagement;
 using UnityEditor.IMGUI.Controls;
+using UnityEditor.SceneManagement;
 using UnityEditorInternal;
 using UnityEngine.AI;
 using UnityEngine;
+
+using BlueScreenStudios.AI;
 
 namespace UnityEditor.AI
 {
@@ -268,10 +274,10 @@ namespace UnityEditor.AI
             var bakeOperations = NavMeshAssetManager.instance.GetBakeOperations();
             for (int i = bakeOperations.Count - 1; i >= 0; --i)
             {
-                if (!targets.Contains(bakeOperations[i].Surface))
+                if (!targets.Contains(bakeOperations[i].surface))
                     continue;
 
-                var oper = bakeOperations[i].BakeOperation;
+                var oper = bakeOperations[i].bakeOperation;
                 if (oper == null)
                     continue;
 
@@ -286,7 +292,7 @@ namespace UnityEditor.AI
 
                 if (GUILayout.Button("Cancel", EditorStyles.miniButton))
                 {
-                    var bakeData = bakeOperations[i].BakeData;
+                    var bakeData = bakeOperations[i].bakeData;
                     UnityEngine.AI.NavMeshBuilder.Cancel(bakeData);
                     bakeOperations.RemoveAt(i);
                 }

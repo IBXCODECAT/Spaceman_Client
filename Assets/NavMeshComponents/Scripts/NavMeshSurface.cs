@@ -1,10 +1,13 @@
 using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.AI;
+
 #if UNITY_EDITOR
 using UnityEditor;
 using UnityEditor.SceneManagement;
 #endif
 
-namespace UnityEngine.AI
+namespace BlueScreenStudios.AI
 {
     public enum CollectObjects
     {

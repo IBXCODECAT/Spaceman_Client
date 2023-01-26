@@ -1,7 +1,9 @@
 {
     "name": "BlueScreenStudios.JigsawSystem",
     "rootNamespace": "BlueScreenStudios.JigsawSystem",
-    "references": [],
+    "references": [
+        "GUID:ab0ed14f57eaf884ca55a70db512a46b"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

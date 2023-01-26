@@ -1,12 +1,14 @@
 {
-    "name": "NavMeshComponents",
+    "name": "BlueScreenStudios.AI",
+    "rootNamespace": "BlueScreenStudios.AI",
     "references": [],
-    "optionalUnityReferences": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
     "autoReferenced": true,
-    "defineConstraints": []
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
 }

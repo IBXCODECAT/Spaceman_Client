@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using UnityEngine;
 
-namespace UnityEngine.AI
+namespace BlueScreenStudios.AI
 {
     [ExecuteInEditMode]
     [AddComponentMenu("Navigation/NavMeshModifierVolume", 31)]

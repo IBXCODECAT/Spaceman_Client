@@ -1,5 +1,7 @@
 using UnityEngine.AI;
 
+using BlueScreenStudios.AI;
+
 namespace UnityEditor.AI
 {
     [CanEditMultipleObjects]

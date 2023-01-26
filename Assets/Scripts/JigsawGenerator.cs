@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System.Collections;
-using System.Net.Sockets;
+using BlueScreenStudios.AI;
 
 namespace BlueScreenStudios.JigsawSystem
 {
@@ -27,6 +27,12 @@ namespace BlueScreenStudios.JigsawSystem
         [SerializeField] JigsawPiece[] decorationPieces;
         [Tooltip("Assign all jigsaw pieces here that belong in the terminators pool.")]
         [SerializeField] JigsawPiece[] terminationPieces;
+
+        [Header("Navigation Mesh Reference")]
+        [Tooltip("Assign a Navmesh surface that the generator should update once complete.")]
+        [SerializeField] NavMeshSurface navigationMesh;
+
+        [SerializeField] private GameObject enemyPrefab;
         #endregion Inspector
 
         /// <summary>
@@ -53,6 +59,11 @@ namespace BlueScreenStudios.JigsawSystem
             {
                 StopAllCoroutines();
                 StartCoroutine(GenerateLevel());
+            }
+
+            if(Input.GetKeyDown(KeyCode.F6))
+            {
+                Instantiate(enemyPrefab, new Vector3(0, -9, 0), Quaternion.identity);
             }
         }
 
@@ -99,6 +110,8 @@ namespace BlueScreenStudios.JigsawSystem
             }
 
             Debug.Log("Done!");
+
+            navigationMesh.BuildNavMesh();
         }
 
         #region Random_Selections
