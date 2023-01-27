@@ -1,0 +1,16 @@
+{
+    "name": "BlueScreenStudios.Chunky",
+    "rootNamespace": "BlueScreenStudios.Chunky",
+    "references": [
+        "GUID:cfaf7c137b272a4429e23e6e5bf9cf3b"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
