@@ -5,9 +5,7 @@ namespace BlueScreenStudios.Discord
 {
     public class DiscordManager : MonoBehaviour
     {
-        private const long applicationID = 988833332445978624;
-
-        private Discord discordUtility = new Discord(applicationID, (UInt64)CreateFlags.NoRequireDiscord);
+        private Discord discordUtility = new Discord(988833332445978624, (UInt64)CreateFlags.Default);
         private ActivityManager activityManagerUtility;
         private UserManager userManagerUtility;
 
@@ -16,6 +14,8 @@ namespace BlueScreenStudios.Discord
         {
             activityManagerUtility = discordUtility.GetActivityManager();
             userManagerUtility = discordUtility.GetUserManager();
+
+            UpdateDiscordRPC("test", "test");
         }
 
         private void Update()
