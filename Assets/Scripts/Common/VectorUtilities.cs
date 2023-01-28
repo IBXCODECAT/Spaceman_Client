@@ -5,17 +5,51 @@ namespace BlueScreenStudios.Common
 {
     public static class VectorUtilities
     {
-
+        #region Y Component
+        /// <summary>
+        /// Removes the Y component from the vector
+        /// </summary>
+        /// <param name="vector">The vector to convert</param>
+        /// <returns>A Vector2 equivilent to the associated Vector3 two dimensional position</returns>
         public static Vector2 RemoveYComponent(this Vector3 vector)
         {
             return new Vector2(vector.x, vector.z);
         }
 
+        /// <summary>
+        /// Removes the Y component from the vector
+        /// </summary>
+        /// <param name="vector">The vector to convert</param>
+        /// <returns>A Vector2 equivilent to the associated Vector3 two dimensional position</returns>
         public static Vector2Int RemoveYComponent(this Vector3Int vector)
         {
             return new Vector2Int(vector.x, vector.z);
         }
 
+        /// <summary>
+        /// Adds a Y component to a vector
+        /// </summary>
+        /// <param name="vector">The vector to convert</param>
+        /// <param name="value">The value for the Y component</param>
+        /// <returns>A Vector3 equivilent to the associated vector2, but with an added Y component</returns>
+        public static Vector3 AddYComponent(this Vector2 vector, float value)
+        {
+            return new Vector3(vector.x, value, vector.y);
+        }
+
+        /// <summary>
+        /// Adds a Y component to a vector
+        /// </summary>
+        /// <param name="vector">The vector to convert</param>
+        /// <param name="value">The value for the Y component</param>
+        /// <returns>A Vector3 equivilent to the associated vector2, but with an added Y component</returns>
+        public static Vector3Int AddYComponent(this Vector2Int vector, int value)
+        {
+            return new Vector3Int(vector.x, value, vector.y);
+        }
+        #endregion Y Component
+
+        #region Rounding
         /// <summary>
         /// Rounds a vector
         /// </summary>
@@ -48,6 +82,33 @@ namespace BlueScreenStudios.Common
             int roundedY = ((int)Math.Round(y / roundToNearest)) * (int)roundToNearest;
 
             return new Vector2Int(roundedX, roundedY);
+        }
+        #endregion Rounding
+
+        /// <summary>
+        /// Checks if a set of Vector3 coordinates is inside of a sphere
+        /// </summary>
+        /// <param name="center">The center of the sphere</param>
+        /// <param name="radius">The radius of the sphere</param>
+        /// <param name="check">The vector to check</param>
+        /// <returns>True if the coordinate set provided is within the bounds of a sphere</returns>
+        public static bool Vector3InSphere(Vector3 center, float radius, Vector3 check)
+        {
+            float diameter = Mathf.Pow(radius, 2);
+
+            float centerX = center.x;
+            float centerY = center.y;
+            float centerZ = center.z;
+
+            float checkX = check.x;
+            float checkY = check.y;
+            float checkZ = check.z;
+
+            float ansX = Mathf.Pow((checkX - centerX), 2);
+            float ansY = Mathf.Pow((checkY - centerY), 2);
+            float ansZ = Mathf.Pow((checkZ - centerZ), 2);
+
+            return ansX + ansY + ansZ < diameter;
         }
     }
 }
