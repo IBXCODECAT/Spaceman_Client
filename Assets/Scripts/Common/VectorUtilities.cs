@@ -85,6 +85,32 @@ namespace BlueScreenStudios.Common
         }
         #endregion Rounding
 
+        #region Grids
+        public static Vector2[] Generate2DGrid(int xCount, int yCount, float spacing, Vector2 offset)
+        {
+            Vector2[] vectorArray = new Vector2[xCount * yCount];
+
+            int modifyIndex = 0;
+
+            for(int x = 0; x < xCount; x++)
+            {
+                for(int y = 0; y < yCount; y++)
+                {
+                    float xCoord = x + offset.x;
+                    float yCoord = y + offset.y;
+
+                    Debug.Log("X: " + xCoord * spacing);
+                    Debug.Log("Y: " + yCoord * spacing);
+
+                    vectorArray[modifyIndex] = new Vector2(xCoord * spacing, yCoord * spacing);
+                    modifyIndex++;
+                }
+            }
+
+            return vectorArray;
+        }
+        #endregion Grids
+
         /// <summary>
         /// Checks if a set of Vector3 coordinates is inside of a sphere
         /// </summary>
