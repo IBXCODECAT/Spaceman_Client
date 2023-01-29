@@ -74,18 +74,39 @@ namespace BlueScreenStudios.Chunky
         /// <param name="chunkPositions">The positions around the player chunks can be instantiated</param>
         private void InstantiateChunks(Vector2[] chunkPositions)
         {
-            foreach (Vector2 position in chunkPositions)
+            foreach(Chunk chunk in chunkPositionsDict.Values)
             {
-                if (VectorUtilities.Vector3InSphere((Vector2)playerGridPosition, renderDistance, position))
-                {
-                    if (!chunkPositionsDict.ContainsKey(position))
-                    {
-                        Vector3 chunkPositionWorldSpace = position.AddYComponent(instantiationHeight);
+                chunk.gameObject.SetActive(false);
+            }
 
+            //For each proposed chunk positiion...
+            foreach (Vector2 chunkGridPosition in chunkPositions)
+            {
+                //Is this chunk position within the player's render distance...
+                if (VectorUtilities.Vector3InSphere((Vector2)playerGridPosition, renderDistance, chunkGridPosition))
+                {
+                    //If a chunk has not already instantiated in the proposed position...
+                    if (!chunkPositionsDict.ContainsKey(chunkGridPosition))
+                    {
+                        //Convert the proposed grid position to a position to instantate the chunk in world space
+                        Vector3 chunkPositionWorldSpace = chunkGridPosition.AddYComponent(instantiationHeight);
+
+                        //Create a new chunk object from the chunk prefab
                         GameObject newchunkObject = Instantiate(chunkPrefab, chunkPositionWorldSpace, Quaternion.identity, nestChunksUnder);
                         Chunk newchunk = newchunkObject.GetComponent<Chunk>();
 
-                        chunkPositionsDict.Add(position, newchunk);
+                        //Add this chunk and it's grid position to the chunk dict
+                        chunkPositionsDict.Add(chunkGridPosition, newchunk);
+                    }
+                    else
+                    {
+                        Chunk chunk;
+                        chunkPositionsDict.TryGetValue(chunkGridPosition, out chunk);
+
+                        if(chunk)
+                        {
+                            chunk.gameObject.SetActive(true);
+                        }
                     }
                 }
             }
