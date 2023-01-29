@@ -96,13 +96,15 @@ namespace BlueScreenStudios.Common
             {
                 for(int y = 0; y < yCount; y++)
                 {
-                    float xCoord = x + offset.x;
-                    float yCoord = y + offset.y;
+                    float xCoord = x * spacing;
+                    float yCoord = y * spacing;
 
-                    Debug.Log("X: " + xCoord * spacing);
-                    Debug.Log("Y: " + yCoord * spacing);
+                    float x1 = xCoord + offset.x;
+                    float y1 = yCoord + offset.y;
 
-                    vectorArray[modifyIndex] = new Vector2(xCoord * spacing, yCoord * spacing);
+                    Debug.Log(x1 + "|" + y1);
+
+                    vectorArray[modifyIndex] = new Vector2(xCoord + offset.x, yCoord + offset.y);
                     modifyIndex++;
                 }
             }
