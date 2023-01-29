@@ -58,7 +58,8 @@ namespace BlueScreenStudios.Chunky
                 //Calculate a point on the chunk grid that is closest to the player
                 playerGridPosition = playerPosition2D.RoundVector(chunkSize);
 
-                Vector2[] chunkPositions = VectorUtilities.Generate2DGrid(renderDistance / chunkSize, renderDistance / chunkSize, chunkSize, playerGridPosition);
+                int gridExtents = renderDistance / chunkSize;
+                Vector2[] chunkPositions = VectorUtilities.Generate2DGrid(-gridExtents, -gridExtents, gridExtents, gridExtents, chunkSize, playerGridPosition);
 
                 InstantiateChunks(chunkPositions);
 

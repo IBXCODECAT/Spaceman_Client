@@ -86,15 +86,18 @@ namespace BlueScreenStudios.Common
         #endregion Rounding
 
         #region Grids
-        public static Vector2[] Generate2DGrid(int xCount, int yCount, float spacing, Vector2 offset)
+        public static Vector2[] Generate2DGrid(int xStart, int yStart, int xEnd, int yEnd, float spacing, Vector2 offset)
         {
-            Vector2[] vectorArray = new Vector2[xCount * yCount];
+            int xSize = xEnd - xStart + 1;
+            int ySize = yEnd - yStart + 1;
+
+            Vector2[] vectorArray = new Vector2[xSize * ySize];
 
             int modifyIndex = 0;
 
-            for(int x = 0; x < xCount; x++)
+            for(int x = xStart; x <= xEnd; x++)
             {
-                for(int y = 0; y < yCount; y++)
+                for(int y = yStart; y <= yEnd; y++)
                 {
                     float xCoord = x * spacing;
                     float yCoord = y * spacing;
@@ -102,7 +105,7 @@ namespace BlueScreenStudios.Common
                     float x1 = xCoord + offset.x;
                     float y1 = yCoord + offset.y;
 
-                    Debug.Log(x1 + "|" + y1);
+                    //Debug.Log(x1 + "|" + y1);
 
                     vectorArray[modifyIndex] = new Vector2(xCoord + offset.x, yCoord + offset.y);
                     modifyIndex++;
