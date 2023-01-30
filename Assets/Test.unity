@@ -463,7 +463,7 @@ MonoBehaviour:
   renderDistance: 50
   chunkSize: 10
   instantiationHeight: 0
-  recalculationDelay: 2
+  recalculationDelay: 1
 --- !u!4 &472559756
 Transform:
   m_ObjectHideFlags: 0

@@ -39,15 +39,14 @@ namespace BlueScreenStudios.Chunky
         private Vector2Int playerGridPosition;
 
         /// <summary>
-        /// Stores the grid position of each chunk with the chuk objects.
-        /// Grid positions are checked to when determining if a new chunk should be placed
+        /// Stores all loaded chunks.
         /// </summary>
-        private Dictionary<Vector2, Chunk> loadedChunkDictionary = new Dictionary<Vector2, Chunk>();
+        private List<Chunk> loadedChunks = new List<Chunk>();
 
         private IEnumerator Start()
         {
             //Clear the list of loaded chunks
-            loadedChunkDictionary.Clear();
+            loadedChunks.Clear();
 
             while (true)
             {
@@ -75,35 +74,54 @@ namespace BlueScreenStudios.Chunky
         /// <param name="chunkPositions">The positions around the player chunks can be instantiated</param>
         private void InstantiateChunks(Vector2[] chunkPositions)
         {
-            DestroyOldChunks();
+            DestroyAndUnloadChunks();
 
             //For each proposed chunk positiion...
-            foreach (Vector2 chunkGridPosition in chunkPositions)
+            foreach (Vector2 newChunkGridPosition in chunkPositions)
             {
                 //Is this chunk position within the player's render distance...
-                if (VectorUtilities.Vector3InSphere((Vector2)playerGridPosition, renderDistance, chunkGridPosition))
+                if (VectorUtilities.Vector3InSphere((Vector2)playerGridPosition, renderDistance, newChunkGridPosition))
                 {
-                    //If a chunk has not already instantiated in the proposed position...
-                    if (!loadedChunkDictionary.ContainsKey(chunkGridPosition))
+                    bool proposedPositionAlreadyLoaded = false;
+
+                    //For each loaded chunk...
+                    foreach(Chunk loadedChunk in loadedChunks)
+                    {
+                        //Calculate the grid position of the loaded chunk
+                        Vector2 loadedChunkGridPosition = loadedChunk.transform.position.RemoveYComponent();
+
+                        //If the loaded chunks grid position is not equal to the proposed grid position...
+                        if (loadedChunkGridPosition == newChunkGridPosition)
+                        {
+                            //The proposed position already has a chunk loaded
+                            proposedPositionAlreadyLoaded = true;
+                        }
+                    }
+
+                    //If the proposed position does not have a chunk loaded...
+                    if(!proposedPositionAlreadyLoaded)
                     {
                         //Convert the proposed grid position to a position to instantate the chunk in world space
-                        Vector3 chunkPositionWorldSpace = chunkGridPosition.AddYComponent(instantiationHeight);
+                        Vector3 chunkPositionWorldSpace = newChunkGridPosition.AddYComponent(instantiationHeight);
 
                         //Create a new chunk object from the chunk prefab
                         GameObject newchunkObject = Instantiate(chunkPrefab, chunkPositionWorldSpace, Quaternion.identity, nestChunksUnder);
                         Chunk newchunk = newchunkObject.GetComponent<Chunk>();
 
                         //Add this chunk and it's grid position to the chunk dict
-                        loadedChunkDictionary.Add(chunkGridPosition, newchunk);
+                        loadedChunks.Add(newchunk);
                     }
                 }
             }
         }
 
-        private void DestroyOldChunks()
+        /// <summary>
+        /// Destroys and unloads all chunks outside of the players render sphere
+        /// </summary>
+        private void DestroyAndUnloadChunks()
         {
             //Create a copy of our loaded chunks dictionary values into an array to prevent an enumeration error
-            Chunk[] loadedChunkValues = new List<Chunk>(loadedChunkDictionary.Values).ToArray();
+            Chunk[] loadedChunkValues = loadedChunks.ToArray();
 
             //For each loaded chunk...
             foreach (Chunk chunk in loadedChunkValues)
@@ -112,7 +130,7 @@ namespace BlueScreenStudios.Chunky
                 if (!VectorUtilities.Vector3InSphere((Vector2)playerGridPosition, renderDistance, chunk.gameObject.transform.position))
                 {
                     //Remove the chunk from the loaded chunks dictionary and destroy this chunk
-                    loadedChunkDictionary.Remove(chunk.gameObject.transform.position.RemoveYComponent());
+                    loadedChunks.Remove(chunk);
                     Destroy(chunk.gameObject);
                 }
             }
