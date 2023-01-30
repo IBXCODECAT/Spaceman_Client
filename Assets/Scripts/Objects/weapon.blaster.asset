@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b585774f622e11f44a7b60c0c5758dd9, type: 3}
+  m_Name: weapon.blaster
+  m_EditorClassIdentifier: 
+  id: weapon.blaster
+  displayName: Laser Blaster
+  icon: {fileID: 21300000, guid: 3c187e19c32c13542ba8a0c1a3a88ece, type: 3}
+  prefab: {fileID: 2225486910712267859, guid: b318fabc73446b746a1005cede0c4ceb, type: 3}
