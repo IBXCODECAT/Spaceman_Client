@@ -158,54 +158,36 @@ namespace BlueScreenStudios.Chunky
         {
             TerrainData data = new TerrainData();
             data.size = new Vector3(chunkSize, terrainDataY, chunkSize);
-
             int heightMapResolution = data.heightmapResolution;
             
-            float[,] heights = new float[heightMapResolution, heightMapResolution];
-
+            //Create an offset to offset our 
             float heightMapXOffset = (chunk.GetGridPosition().x / chunkSize) * heightMapResolution;
             float heightMapYOffset = (chunk.GetGridPosition().y / chunkSize) * heightMapResolution;
 
-            //Debug.Log("Height Map Offsets: " + heightMapXOffset + "|" + heightMapYOffset, chunk.gameObject);
+            //Debug.Log(new Vector2(heightMapXOffset, heightMapYOffset), chunk.gameObject);
 
-            for (int heightMapLocalX = 0; heightMapLocalX < heights.GetLength(0); heightMapLocalX++)
+            //Create our terrainDataHeightMap for this terrain with size of resolution
+            float[,] terrainDataHeightMap = new float[heightMapResolution, heightMapResolution];
+
+            //For each X coordinate on the terrain data heightmap
+            for (int terrainDataMapX = 0; terrainDataMapX < terrainDataHeightMap.GetLength(0); terrainDataMapX++)
             {
-                for(int heightMapLocalY = 0; heightMapLocalY < heights.GetLength(1); heightMapLocalY++)
+                //For each Y coordinate on the terrain data heightmap
+                for (int terrainDataMapY = 0; terrainDataMapY < terrainDataHeightMap.GetLength(1); terrainDataMapY++)
                 {
-                    float heightMapXCoord = heightMapXOffset + heightMapLocalX;
-                    float heightMapYCoord = heightMapYOffset + heightMapLocalY;
+                    float heightMapXCoord = heightMapXOffset + terrainDataMapX;
+                    float heightMapYCoord = heightMapYOffset + terrainDataMapY;
 
-                    #region Tests
-                    ///*
-                    if(heightMapXOffset == 33)
-                    {
-                        Debug.Log("1X: " + (heightMapXCoord * noiseScale.x));
-                    }
+                    heightMapXCoord *= noiseScale.x;
+                    heightMapYCoord *= noiseScale.y;
 
-                    if(heightMapXOffset == 66)
-                    {
-                        Debug.Log("2X: " + (heightMapXCoord * noiseScale.x));
-                    }
+                    float height = Mathf.PerlinNoise(heightMapXCoord, heightMapYCoord);
 
-                    if(heightMapYOffset == 33)
-                    {
-                        Debug.Log("1Y: " + (heightMapYCoord * noiseScale.y));
-                    }
-
-                    if (heightMapYOffset == 66)
-                    {
-                        Debug.Log("2Y: " + (heightMapYCoord * noiseScale.y));
-                    }
-                    //*/
-                    #endregion Tests
-
-                    float height = Mathf.PerlinNoise(heightMapXCoord * noiseScale.x, heightMapYCoord * noiseScale.y);
-
-                    heights[heightMapLocalX, heightMapLocalY] = height;
+                    terrainDataHeightMap[terrainDataMapX, terrainDataMapY] = height;
                 }
             }
 
-            data.SetHeights(0, 0, heights);
+            data.SetHeights(0, 0, terrainDataHeightMap);
 
             chunk.GetComponentInChildren<Terrain>().terrainData = data;
             chunk.GetComponentInChildren<TerrainCollider>().terrainData = data;
