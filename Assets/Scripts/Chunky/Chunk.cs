@@ -33,7 +33,7 @@ namespace BlueScreenStudios.Chunky
         /// Checks if this chunk has been modified by the player
         /// </summary>
         /// <returns>True if this chunk has been modified by the player</returns>
-        internal bool IsChunkPlayerModified()
+        internal bool ChunkWasPlayerModified()
         {
             return playerModified;
         }

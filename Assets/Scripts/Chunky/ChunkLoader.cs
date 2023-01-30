@@ -31,6 +31,9 @@ namespace BlueScreenStudios.Chunky
         [Tooltip("Set a Y coordinate to instantiate chunks at.")]
         [SerializeField] private int instantiationHeight;
 
+        [Tooltip("World Height")]
+        [SerializeField] private float terrainDataY;
+
         [Range(1, 10)]
         [Tooltip("The amount of time to wait before recalculating which chunks need to be loaded/unloaded.")]
         [SerializeField] private int recalculationDelay;
@@ -108,6 +111,8 @@ namespace BlueScreenStudios.Chunky
                         GameObject newchunkObject = Instantiate(chunkPrefab, chunkPositionWorldSpace, Quaternion.identity, nestChunksUnder);
                         Chunk newchunk = newchunkObject.GetComponent<Chunk>();
 
+                        SetTerrainData(newchunk);
+
                         //Add this chunk and it's grid position to the chunk dict
                         loadedChunks.Add(newchunk);
                     }
@@ -131,10 +136,44 @@ namespace BlueScreenStudios.Chunky
                 {
                     //Remove the chunk from the loaded chunks dictionary and destroy this chunk
                     loadedChunks.Remove(chunk);
-                    Destroy(chunk.gameObject);
+
+                    //If the chunk was not modified by the player...
+                    if (!chunk.ChunkWasPlayerModified())
+                    {
+                        Destroy(chunk.gameObject);
+                    }
                 }
             }
         }
+
+        private void SetTerrainData(Chunk chunk)
+        {
+            TerrainData data = new TerrainData();
+            data.size = new Vector3(chunkSize, terrainDataY, chunkSize);
+
+            int heightMapResolution = data.heightmapResolution;
+
+            
+            float[,] heights = new float[heightMapResolution, heightMapResolution];
+
+            for(int x = 0; x < heights.GetLength(0); x++)
+            {
+                for(int y = 0; y < heights.GetLength(1); y++)
+                {
+                    float height = Mathf.PerlinNoise(x * 0.1f, y * 0.1f);
+
+                    heights[x, y] = height;
+                }
+            }
+
+            data.SetHeights(0, 0, heights);
+            
+
+            chunk.GetComponentInChildren<Terrain>().terrainData = data;
+            chunk.GetComponentInChildren<TerrainCollider>().terrainData = data;
+        }
+
+        
 
         private void OnDrawGizmos()
         {

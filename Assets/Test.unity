@@ -393,7 +393,7 @@ Transform:
   - {fileID: 304486336}
   - {fileID: 472559756}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &429589822
 GameObject:
@@ -460,10 +460,11 @@ MonoBehaviour:
   chunkPrefab: {fileID: 1606294052456752089, guid: bd62831e7e9bf714eab7a7054486c028,
     type: 3}
   nestChunksUnder: {fileID: 1423252299}
-  renderDistance: 50
+  renderDistance: 100
   chunkSize: 10
-  instantiationHeight: 0
-  recalculationDelay: 1
+  instantiationHeight: -25
+  terrainDataY: 0.5
+  recalculationDelay: 4
 --- !u!4 &472559756
 Transform:
   m_ObjectHideFlags: 0
@@ -477,37 +478,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 370448013}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &972212343
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 972212344}
-  m_Layer: 0
-  m_Name: Test Obj
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &972212344
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 972212343}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &986612155
