@@ -463,8 +463,10 @@ MonoBehaviour:
   renderDistance: 100
   chunkSize: 10
   instantiationHeight: -25
-  terrainDataY: 0.5
+  terrainDataY: 2
   recalculationDelay: 4
+  noiseOctaves: 1
+  noiseScale: {x: 0.05, y: 0.05}
 --- !u!4 &472559756
 Transform:
   m_ObjectHideFlags: 0

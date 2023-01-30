@@ -37,6 +37,11 @@ namespace BlueScreenStudios.Chunky
         [Range(1, 10)]
         [Tooltip("The amount of time to wait before recalculating which chunks need to be loaded/unloaded.")]
         [SerializeField] private int recalculationDelay;
+
+        [Header("Terrain Generation Settings")]
+        [SerializeField] private int noiseOctaves;
+        [SerializeField] private Vector2 noiseScale;
+
         #endregion Inspector
 
         private Vector2Int playerGridPosition;
@@ -111,6 +116,9 @@ namespace BlueScreenStudios.Chunky
                         GameObject newchunkObject = Instantiate(chunkPrefab, chunkPositionWorldSpace, Quaternion.identity, nestChunksUnder);
                         Chunk newchunk = newchunkObject.GetComponent<Chunk>();
 
+                        newchunk.SetGridPosition(newChunkGridPosition);
+                        newchunk.SetWorldPosition(chunkPositionWorldSpace);
+
                         SetTerrainData(newchunk);
 
                         //Add this chunk and it's grid position to the chunk dict
@@ -152,28 +160,56 @@ namespace BlueScreenStudios.Chunky
             data.size = new Vector3(chunkSize, terrainDataY, chunkSize);
 
             int heightMapResolution = data.heightmapResolution;
-
             
             float[,] heights = new float[heightMapResolution, heightMapResolution];
 
-            for(int x = 0; x < heights.GetLength(0); x++)
-            {
-                for(int y = 0; y < heights.GetLength(1); y++)
-                {
-                    float height = Mathf.PerlinNoise(x * 0.1f, y * 0.1f);
+            float heightMapXOffset = (chunk.GetGridPosition().x / chunkSize) * heightMapResolution;
+            float heightMapYOffset = (chunk.GetGridPosition().y / chunkSize) * heightMapResolution;
 
-                    heights[x, y] = height;
+            //Debug.Log("Height Map Offsets: " + heightMapXOffset + "|" + heightMapYOffset, chunk.gameObject);
+
+            for (int heightMapLocalX = 0; heightMapLocalX < heights.GetLength(0); heightMapLocalX++)
+            {
+                for(int heightMapLocalY = 0; heightMapLocalY < heights.GetLength(1); heightMapLocalY++)
+                {
+                    float heightMapXCoord = heightMapXOffset + heightMapLocalX;
+                    float heightMapYCoord = heightMapYOffset + heightMapLocalY;
+
+                    #region Tests
+                    ///*
+                    if(heightMapXOffset == 33)
+                    {
+                        Debug.Log("1X: " + (heightMapXCoord * noiseScale.x));
+                    }
+
+                    if(heightMapXOffset == 66)
+                    {
+                        Debug.Log("2X: " + (heightMapXCoord * noiseScale.x));
+                    }
+
+                    if(heightMapYOffset == 33)
+                    {
+                        Debug.Log("1Y: " + (heightMapYCoord * noiseScale.y));
+                    }
+
+                    if (heightMapYOffset == 66)
+                    {
+                        Debug.Log("2Y: " + (heightMapYCoord * noiseScale.y));
+                    }
+                    //*/
+                    #endregion Tests
+
+                    float height = Mathf.PerlinNoise(heightMapXCoord * noiseScale.x, heightMapYCoord * noiseScale.y);
+
+                    heights[heightMapLocalX, heightMapLocalY] = height;
                 }
             }
 
             data.SetHeights(0, 0, heights);
-            
 
             chunk.GetComponentInChildren<Terrain>().terrainData = data;
             chunk.GetComponentInChildren<TerrainCollider>().terrainData = data;
         }
-
-        
 
         private void OnDrawGizmos()
         {

@@ -19,6 +19,10 @@ namespace BlueScreenStudios.Chunky
         /// </summary>
         private bool chunkUpdatesSaved = false;
 
+        private Vector2 gridPosition = Vector2.zero;
+
+        private Vector3 worldPosition = Vector3.zero;
+
         #region Getters
         /// <summary>
         /// Gets the generation status of this chunk
@@ -45,6 +49,16 @@ namespace BlueScreenStudios.Chunky
         internal bool IsChunkSaved()
         {
             return chunkUpdatesSaved;
+        }
+
+        internal Vector2 GetGridPosition()
+        {
+            return gridPosition;
+        }
+
+        internal Vector3 GetWorldPosition()
+        {
+            return worldPosition;
         }
         #endregion Getters
 
@@ -77,6 +91,17 @@ namespace BlueScreenStudios.Chunky
         {
             chunkUpdatesSaved = true;
         }
+
+        internal void SetGridPosition(Vector2 gridPosition)
+        {
+            this.gridPosition = gridPosition;
+        }
+
+        internal void SetWorldPosition(Vector3 worldPosition)
+        {
+            this.worldPosition = worldPosition;
+        }
+
         #endregion Setters
     }
 }
