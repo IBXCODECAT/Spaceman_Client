@@ -3,13 +3,13 @@ using UnityEngine;
 
 namespace BlueScreenStudios.InventorySystem
 {
-    public class InventorySystem : MonoBehaviour
+    public class InventorySystem 
     {
         internal Dictionary<InventoryItemData, InventoryItem> m_itemDictionary;
         internal List<InventoryItem> inventory { get; private set; }
 
-        // Start is called before the first frame update
-        void Awake()
+        [RuntimeInitializeOnLoadMethod]
+        void Init()
         {
             inventory = new List<InventoryItem>();
             m_itemDictionary= new Dictionary<InventoryItemData, InventoryItem>();
