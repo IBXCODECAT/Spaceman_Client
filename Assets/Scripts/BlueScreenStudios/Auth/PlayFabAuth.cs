@@ -17,6 +17,36 @@ namespace BlueScreenStudios.Auth
             PlayFabSettings.DisableDeviceInfo = false;
         }
 
+        private void Update()
+        {
+            if(Input.GetKeyDown(KeyCode.F1))
+                Authenticate("IBXCODECAT", "Spyeye#7");
+        }
+
+
+        internal void GetUserFlags()
+        {
+            ExecuteCloudScriptRequest request = new ExecuteCloudScriptRequest
+            {
+                FunctionName = "GetUserReadOnlyData",
+                //FunctionParameter = "account_flags"
+            };
+
+            PlayFabClientAPI.ExecuteCloudScript(request, OnGetUserFlags, OnAPIError);
+        }
+
+        internal void OnGetUserFlags(ExecuteCloudScriptResult executionResult)
+        {
+            if(executionResult.FunctionResult != null)
+            {
+                Debug.Log("CloudScript Executed:\n" + executionResult.FunctionResult.ToString());
+            }
+            else
+            {
+                Debug.Log(null);
+            }
+        }
+
         /// <summary>
         /// Attempts to authenticate a player by registering them as a new user
         /// </summary>
@@ -60,12 +90,13 @@ namespace BlueScreenStudios.Auth
             Debug.Log("Register new user");
         }
 
-        private static void OnLogin(LoginResult result)
+        private void OnLogin(LoginResult result)
         {
             Debug.Log(result.ToJson().ToString());
+            GetUserFlags();
         }
 
-        private static void OnAPIError(PlayFabError error)
+        private void OnAPIError(PlayFabError error)
         {
             Debug.LogError(error.GenerateErrorReport());
         }
