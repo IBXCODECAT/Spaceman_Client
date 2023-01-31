@@ -1,4 +1,5 @@
-using Codice.Utils;
+using Newtonsoft;
+using Newtonsoft.Json;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
@@ -7,6 +8,8 @@ namespace BlueScreenStudios.Auth
 {
     public class PlayFabAuth : MonoBehaviour
     {
+        public static AccountFlags flags;
+
         /// <summary>
         /// Initialize PlayFab Settings
         /// </summary>
@@ -19,8 +22,7 @@ namespace BlueScreenStudios.Auth
 
         private void Update()
         {
-            if(Input.GetKeyDown(KeyCode.F1))
-                Authenticate("IBXCODECAT", "Spyeye#7");
+
         }
 
 
@@ -28,8 +30,7 @@ namespace BlueScreenStudios.Auth
         {
             ExecuteCloudScriptRequest request = new ExecuteCloudScriptRequest
             {
-                FunctionName = "GetUserReadOnlyData",
-                //FunctionParameter = "account_flags"
+                FunctionName = "GetUserReadOnlyData"
             };
 
             PlayFabClientAPI.ExecuteCloudScript(request, OnGetUserFlags, OnAPIError);
@@ -43,8 +44,10 @@ namespace BlueScreenStudios.Auth
             }
             else
             {
-                Debug.Log(null);
+                Debug.LogError("CloudScript execution failed.");
             }
+
+            flags = JsonConvert.DeserializeObject<AccountFlags>(executionResult.FunctionResult.ToString());
         }
 
         /// <summary>
@@ -87,12 +90,12 @@ namespace BlueScreenStudios.Auth
 
         private void OnRegister(RegisterPlayFabUserResult result)
         {
-            Debug.Log("Register new user");
+            Debug.Log("Registered new user:\n" + result.ToJson().ToString());
         }
 
         private void OnLogin(LoginResult result)
         {
-            Debug.Log(result.ToJson().ToString());
+            Debug.Log("Logged in:\n" + result.ToJson().ToString());
             GetUserFlags();
         }
 

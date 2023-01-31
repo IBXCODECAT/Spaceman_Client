@@ -1,7 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
 namespace BlueScreenStudios.Auth
 {
@@ -33,7 +30,7 @@ namespace BlueScreenStudios.Auth
         public string Permission { get; set; }
     }
 
-    public class AccountData
+    public class AccountFlags
     {
         public IsEarly is_early { get; set; }
         public DiscordMember discord_member { get; set; }
