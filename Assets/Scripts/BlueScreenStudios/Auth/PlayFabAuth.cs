@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using PlayFab;
 using PlayFab.ClientModels;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace BlueScreenStudios.Auth
 {
@@ -20,9 +21,12 @@ namespace BlueScreenStudios.Auth
             PlayFabSettings.DisableDeviceInfo = false;
         }
 
-        private void Update()
+        /// <summary>
+        /// Skip authentication
+        /// </summary>
+        public void SkipAuth()
         {
-
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
 
