@@ -2,13 +2,26 @@ using Newtonsoft;
 using Newtonsoft.Json;
 using PlayFab;
 using PlayFab.ClientModels;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 namespace BlueScreenStudios.Auth
 {
     public class PlayFabAuth : MonoBehaviour
     {
+        [Header("Window Title")]
+        [SerializeField] private TMP_Text windowTitle;
+
+        [Header("Input Fields")]
+        [SerializeField] private TMP_InputField usernameField;
+        [SerializeField] private TMP_InputField emailField;
+        [SerializeField] private TMP_InputField passwordField;
+
+        [Header("Checkboxes")]
+        [SerializeField] private Toggle createAccountCheckbox;
+
         public static AccountFlags flags;
 
         /// <summary>
@@ -21,14 +34,45 @@ namespace BlueScreenStudios.Auth
             PlayFabSettings.DisableDeviceInfo = false;
         }
 
+
         /// <summary>
-        /// Skip authentication
+        /// Runs when the create account checkbox value is changed
+        /// </summary>
+        public void UpdateGUI()
+        {
+            emailField.gameObject.SetActive(createAccountCheckbox.isOn);
+
+            if(createAccountCheckbox.isOn)
+            {
+                windowTitle.text = "Create Account";
+            }
+            else
+            {
+                windowTitle.text = "Welcome Back!";
+            }
+        }
+
+        /// <summary>
+        /// Runs once the Continue button is pressed on the Auth screen
+        /// </summary>
+        public void OnAuthenticate()
+        {
+            string username = usernameField.text;
+            string email = emailField.text;
+            string password = passwordField.text;
+
+            Debug.Log("Start Login user: " + username);
+
+            Authenticate(username, password);
+        }
+
+        /// <summary>
+        /// Runs once the Skip button is pressed on the auth screen
         /// </summary>
         public void SkipAuth()
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
-
 
         internal void GetUserFlags()
         {
