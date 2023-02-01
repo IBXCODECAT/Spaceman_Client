@@ -14,3 +14,6 @@ Version 1.6 - June 21, 2018
 D. LiberationSans
 LiberationSans OFL
 Version 1.1 2007
+
+E. Jupiter
+The Jupiter font is created by Isurus Labs and is in the public domain.
