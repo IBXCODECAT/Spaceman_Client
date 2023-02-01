@@ -220,6 +220,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &356327349 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2857053647411172663, guid: 761cdc9e4e883334cbdcea062d0befa7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1039809982}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &429049282 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8746678193447392789, guid: 761cdc9e4e883334cbdcea062d0befa7,
@@ -432,21 +438,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 814417836257332542, guid: 761cdc9e4e883334cbdcea062d0befa7,
-        type: 3}
-      propertyPath: CameraHeightRatio
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 814417836257332542, guid: 761cdc9e4e883334cbdcea062d0befa7,
-        type: 3}
-      propertyPath: CapsuleHeightStanding
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1510728008317408845, guid: 761cdc9e4e883334cbdcea062d0befa7,
-        type: 3}
-      propertyPath: m_BendingStiffness
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 7253983127304857660, guid: 761cdc9e4e883334cbdcea062d0befa7,
         type: 3}
       propertyPath: m_Name
@@ -645,7 +636,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7a624564df2cdf4ca03ac44a9635f9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  capeAnchor: {fileID: 0}
+  capeAnchor: {fileID: 356327349}
 --- !u!1001 &1777815723
 PrefabInstance:
   m_ObjectHideFlags: 0
