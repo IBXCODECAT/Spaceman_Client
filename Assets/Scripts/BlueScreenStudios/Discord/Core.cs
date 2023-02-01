@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace BlueScreenStudios.Discord
+namespace Discord
 {
     public enum Result
     {

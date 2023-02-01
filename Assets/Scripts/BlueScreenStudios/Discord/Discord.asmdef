@@ -1,9 +1,7 @@
 {
-    "name": "BlueScreenStudios.AI",
-    "rootNamespace": "BlueScreenStudios.AI",
-    "references": [
-        "GUID:9c5543eabb73a6249ac07b2c065ee8b4"
-    ],
+    "name": "Discord",
+    "rootNamespace": "Discord",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

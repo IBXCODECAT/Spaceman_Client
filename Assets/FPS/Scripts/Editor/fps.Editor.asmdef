@@ -1,10 +1,11 @@
 {
     "name": "fps.Editor",
+    "rootNamespace": "fps.Editor",
     "references": [
+        "GUID:ab0ed14f57eaf884ca55a70db512a46b",
+        "GUID:3ff981a0b990a9d48b7d62e211e5012c",
         "GUID:9c5543eabb73a6249ac07b2c065ee8b4",
-        "GUID:27b7e9efd224f064990a97ed99e4456f",
-        "GUID:e9dc24b3d0971d64a9e95b6986d97af5",
-        "GUID:269903ea973e2a64ca0fb91ee07d3625"
+        "GUID:27b7e9efd224f064990a97ed99e4456f"
     ],
     "includePlatforms": [
         "Editor"

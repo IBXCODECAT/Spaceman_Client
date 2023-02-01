@@ -1,6 +1,7 @@
-using Unity.FPS.UI;
 using UnityEditor;
 using UnityEngine;
+
+using BlueScreenStudios.GUI;
 
 namespace Unity.FPS.EditorExt
 {

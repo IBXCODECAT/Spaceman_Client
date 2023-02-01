@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BlueScreenStudios.Discord
+namespace Discord
 {
     public partial class ActivityManager
     {
