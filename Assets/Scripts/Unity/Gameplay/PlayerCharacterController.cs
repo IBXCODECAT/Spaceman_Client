@@ -228,6 +228,7 @@ namespace Unity.FPS.Gameplay
 
         void GroundCheck()
         {
+
             // Make sure that the ground check distance while already in air is very small, to prevent suddenly snapping to ground
             float chosenGroundCheckDistance =
                 IsGrounded ? (m_Controller.skinWidth + GroundCheckDistance) : k_GroundCheckDistanceInAir;

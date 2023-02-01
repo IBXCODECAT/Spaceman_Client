@@ -5,23 +5,35 @@ namespace BlueScreenStudios.InventorySystem
 {
     public class InventorySystem : MonoBehaviour
     {
+        [SerializeField] private GameObject capeAnchor;
+
         internal Dictionary<InventoryItemData, InventoryItem> m_itemDictionary;
         internal List<InventoryItem> inventory { get; private set; }
 
-        internal Capes capesSystem;
+        internal InventoryItemData[] enabledCapes;
 
-        internal InventoryGUI gui;
+        private InventoryGUI gui;
 
         private void Start()
         {
             inventory = new List<InventoryItem>();
             m_itemDictionary= new Dictionary<InventoryItemData, InventoryItem>();
 
-            capesSystem = GetComponent<Capes>();
+            CapeSystemInit();
 
-            capesSystem.GetEnabledCapes();
         }
 
+        private void CapeSystemInit()
+        {
+            Capes capesSystem = GetComponent<Capes>();
+
+            enabledCapes = capesSystem.GetEnabledCapes();
+
+            if (enabledCapes.Length > 0) capeAnchor.SetActive(true);
+            else capeAnchor.SetActive(false);
+        }
+
+        #region Item Management
         internal InventoryItem Get(InventoryItemData referenceData)
         {
             if(m_itemDictionary.TryGetValue(referenceData, out InventoryItem value))
@@ -59,5 +71,6 @@ namespace BlueScreenStudios.InventorySystem
                 }
             }
         }
+        #endregion Item Management
     }
 }
