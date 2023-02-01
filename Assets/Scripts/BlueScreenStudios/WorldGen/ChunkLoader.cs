@@ -119,7 +119,7 @@ namespace BlueScreenStudios.WorldGen
                         newchunk.SetGridPosition(newChunkGridPosition);
                         newchunk.SetWorldPosition(chunkPositionWorldSpace);
 
-                        SetTerrainData(newchunk);
+                        SetTerrainData(newchunkObject);
 
                         //Add this chunk and it's grid position to the chunk dict
                         loadedChunks.Add(newchunk);
@@ -154,17 +154,25 @@ namespace BlueScreenStudios.WorldGen
             }
         }
 
-        private void SetTerrainData(Chunk chunk)
+        private void SetTerrainData(GameObject chunkInstance)
         {
+            Chunk chunk = chunkInstance.GetComponent<Chunk>();
+
+            //Create new terrain data for this chunk
             TerrainData data = new TerrainData();
             data.size = new Vector3(chunkSize, terrainDataY, chunkSize);
+
+            //Get the height map resolution from our chunk
             int heightMapResolution = data.heightmapResolution;
+
+            float chunkOffsetX = chunk.GetGridPosition().x / chunkSize;
+            float chunkOffsetY = chunk.GetGridPosition().y / chunkSize;
             
             //Create an offset to offset our 
-            float heightMapXOffset = (chunk.GetGridPosition().x / chunkSize) * heightMapResolution;
-            float heightMapYOffset = (chunk.GetGridPosition().y / chunkSize) * heightMapResolution;
+            float heightMapXOffset = chunkOffsetX * heightMapResolution;
+            float heightMapYOffset = chunkOffsetY * heightMapResolution;
 
-            //Debug.Log(new Vector2(heightMapXOffset, heightMapYOffset), chunk.gameObject);
+            chunk.gameObject.name = "Chunk: " + heightMapXOffset + " | " + heightMapYOffset;
 
             //Create our terrainDataHeightMap for this terrain with size of resolution
             float[,] terrainDataHeightMap = new float[heightMapResolution, heightMapResolution];
@@ -181,7 +189,23 @@ namespace BlueScreenStudios.WorldGen
                     heightMapXCoord *= noiseScale.x;
                     heightMapYCoord *= noiseScale.y;
 
+                    
+                    //If this the first row/column of the height map...
+                    if(terrainDataMapX == 0 || terrainDataMapY == 0)
+                    {
+                        //Decrease beginning value by the noise scale so chunk edges are assigned the same value match
+                        heightMapXCoord -= noiseScale.x;
+                        heightMapYCoord -= noiseScale.y;
+                    }
+
                     float height = Mathf.PerlinNoise(heightMapXCoord, heightMapYCoord);
+
+                    const int test = 66;
+
+                    if (heightMapXOffset == test && heightMapYOffset == test)
+                    {
+                        Debug.Log("Coord Sampled: " + new Vector2(heightMapXCoord, heightMapYCoord) + " Coord Set: " + new Vector2(terrainDataMapX, terrainDataMapY));
+                    }
 
                     terrainDataHeightMap[terrainDataMapX, terrainDataMapY] = height;
                 }

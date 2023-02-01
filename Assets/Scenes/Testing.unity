@@ -1172,10 +1172,10 @@ MonoBehaviour:
   renderDistance: 50
   chunkSize: 10
   instantiationHeight: 0
-  terrainDataY: 0.5
+  terrainDataY: 0.75
   recalculationDelay: 3
   noiseOctaves: 1
-  noiseScale: {x: 0.15, y: 0.15}
+  noiseScale: {x: 1, y: 0.1}
 --- !u!1 &36420567145930031
 GameObject:
   m_ObjectHideFlags: 0
