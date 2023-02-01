@@ -42,6 +42,13 @@ namespace BlueScreenStudios.WorldGen
         [SerializeField] private int noiseOctaves;
         [SerializeField] private Vector2 noiseScale;
 
+        [Header("Debug")]
+        [SerializeField] private bool enableDebug;
+        [Range(-3, 3)]
+        [SerializeField] private int logChunkX;
+        [Range(-3, 3)]
+        [SerializeField] private int logChunkY;
+
         #endregion Inspector
 
         private Vector2Int playerGridPosition;
@@ -169,45 +176,51 @@ namespace BlueScreenStudios.WorldGen
             float chunkOffsetY = chunk.GetGridPosition().y / chunkSize;
             
             //Create an offset to offset our 
-            float heightMapXOffset = chunkOffsetX * heightMapResolution;
-            float heightMapYOffset = chunkOffsetY * heightMapResolution;
+            float perlinSampleOffsetX = chunkOffsetX * heightMapResolution;
+            float perlinSampleOffsetY = chunkOffsetY * heightMapResolution;
 
-            chunk.gameObject.name = "Chunk: " + heightMapXOffset + " | " + heightMapYOffset;
+            chunk.gameObject.name = "Chunk: " + perlinSampleOffsetX + " | " + perlinSampleOffsetY;
 
             //Create our terrainDataHeightMap for this terrain with size of resolution
             float[,] terrainDataHeightMap = new float[heightMapResolution, heightMapResolution];
 
             //For each X coordinate on the terrain data heightmap
-            for (int terrainDataMapX = 0; terrainDataMapX < terrainDataHeightMap.GetLength(0); terrainDataMapX++)
+            for (int heightMapX = 0; heightMapX < terrainDataHeightMap.GetLength(0); heightMapX++)
             {
                 //For each Y coordinate on the terrain data heightmap
-                for (int terrainDataMapY = 0; terrainDataMapY < terrainDataHeightMap.GetLength(1); terrainDataMapY++)
+                for (int heightMapY = 0; heightMapY < terrainDataHeightMap.GetLength(1); heightMapY++)
                 {
-                    float heightMapXCoord = heightMapXOffset + terrainDataMapX;
-                    float heightMapYCoord = heightMapYOffset + terrainDataMapY;
+                    float perlinSampleX = perlinSampleOffsetX + heightMapX;
+                    float perlinSampleY = perlinSampleOffsetY + heightMapY;
 
-                    heightMapXCoord *= noiseScale.x;
-                    heightMapYCoord *= noiseScale.y;
+                    perlinSampleX *= noiseScale.x;
+                    perlinSampleY *= noiseScale.y;
 
                     
                     //If this the first row/column of the height map...
-                    if(terrainDataMapX == 0 || terrainDataMapY == 0)
+                    if(heightMapX == 0 || heightMapY == 0)
                     {
                         //Decrease beginning value by the noise scale so chunk edges are assigned the same value match
-                        heightMapXCoord -= noiseScale.x;
-                        heightMapYCoord -= noiseScale.y;
+                        perlinSampleX -= noiseScale.x;
+                        perlinSampleY -= noiseScale.y;
                     }
 
-                    float height = Mathf.PerlinNoise(heightMapXCoord, heightMapYCoord);
+                    float height = Mathf.PerlinNoise(perlinSampleX, perlinSampleY);
 
-                    const int test = 66;
-
-                    if (heightMapXOffset == test && heightMapYOffset == test)
+                    if (enableDebug)
                     {
-                        Debug.Log("Coord Sampled: " + new Vector2(heightMapXCoord, heightMapYCoord) + " Coord Set: " + new Vector2(terrainDataMapX, terrainDataMapY));
+                        if (chunkOffsetX == logChunkX && chunkOffsetY == logChunkY && heightMapX == 32)
+                        {
+                            Debug.Log("THIS CHUNK > Perlin Sampled : " + new Vector2(perlinSampleX, perlinSampleY) + " Heightmap Set: " + new Vector2(heightMapX, heightMapY) + " CH: " + height + " AH: " + Mathf.PerlinNoise(perlinSampleX, perlinSampleY), chunk.gameObject);
+                        }
+
+                        if(chunkOffsetX == (logChunkX + 1) && chunkOffsetY == logChunkY && heightMapX == 32)
+                        {
+                            Debug.Log("NEXT CHUNK > Perlin Sampled : " + new Vector2(perlinSampleX, perlinSampleY) + " Heightmap Set: " + new Vector2(heightMapX, heightMapY) + " CH: " + height + " AH: " + Mathf.PerlinNoise(perlinSampleX, perlinSampleY), chunk.gameObject);
+                        }
                     }
 
-                    terrainDataHeightMap[terrainDataMapX, terrainDataMapY] = height;
+                    terrainDataHeightMap[heightMapX, heightMapY] = height;
                 }
             }
 

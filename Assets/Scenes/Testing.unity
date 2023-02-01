@@ -1175,7 +1175,10 @@ MonoBehaviour:
   terrainDataY: 0.75
   recalculationDelay: 3
   noiseOctaves: 1
-  noiseScale: {x: 1, y: 0.1}
+  noiseScale: {x: 0.1, y: 0.1}
+  enableDebug: 1
+  logChunkX: 0
+  logChunkY: 0
 --- !u!1 &36420567145930031
 GameObject:
   m_ObjectHideFlags: 0
