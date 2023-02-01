@@ -22,6 +22,14 @@ namespace BlueScreenStudios.Auth
         [Header("Checkboxes")]
         [SerializeField] private Toggle createAccountCheckbox;
 
+        [Header("Text Settings")]
+        [SerializeField] private string windowTitleLoginMode;
+        [SerializeField] private string windowTitleCreateAccountMode;
+
+        [Header("Outputs")]
+        [SerializeField] private Image outputBox;
+        [SerializeField] private TMP_Text outputBoxText;
+
         public static AccountFlags flags;
 
         /// <summary>
@@ -34,6 +42,19 @@ namespace BlueScreenStudios.Auth
             PlayFabSettings.DisableDeviceInfo = false;
         }
 
+        private void Start()
+        {
+            if(PlayerPrefs.GetInt("PreviousLoginCompleted") == 1)
+            {
+                createAccountCheckbox.isOn = false;
+            }
+            else
+            {
+                createAccountCheckbox.isOn = true;
+            }
+
+            UpdateGUI();
+        }
 
         /// <summary>
         /// Runs when the create account checkbox value is changed
@@ -44,11 +65,15 @@ namespace BlueScreenStudios.Auth
 
             if(createAccountCheckbox.isOn)
             {
-                windowTitle.text = "Create Account";
+                windowTitle.text = windowTitleCreateAccountMode;
+                outputBoxText.text = "Privacy Notice:\nBy creating an account you agree to our Terms of Service and Privacy Policy";
+                outputBox.color = Color.yellow;
             }
             else
             {
-                windowTitle.text = "Welcome Back!";
+                windowTitle.text = windowTitleLoginMode;
+                outputBoxText.text = "Automated Account Deletion Notice:\nAccounts that are inactive for more than a year will be automatically deleted.";
+                outputBox.color = Color.cyan;
             }
         }
 
@@ -63,7 +88,14 @@ namespace BlueScreenStudios.Auth
 
             Debug.Log("Start Login user: " + username);
 
-            Authenticate(username, password);
+            if (createAccountCheckbox.isOn)
+            {
+                Authenticate(username, email, password);
+            }
+            else
+            {
+                Authenticate(username, password);
+            }
         }
 
         /// <summary>
@@ -96,6 +128,8 @@ namespace BlueScreenStudios.Auth
             }
 
             flags = JsonConvert.DeserializeObject<AccountFlags>(executionResult.FunctionResult.ToString());
+
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
         /// <summary>
@@ -139,17 +173,28 @@ namespace BlueScreenStudios.Auth
         private void OnRegister(RegisterPlayFabUserResult result)
         {
             Debug.Log("Registered new user:\n" + result.ToJson().ToString());
+
+            Authenticate(result.Username, passwordField.text);
         }
 
         private void OnLogin(LoginResult result)
         {
             Debug.Log("Logged in:\n" + result.ToJson().ToString());
+
+            outputBoxText.text = "Success!\nLoading...";
+            outputBox.color = Color.green;
+
+            PlayerPrefs.SetInt("PreviousLoginCompleted", 1);
+
             GetUserFlags();
         }
 
         private void OnAPIError(PlayFabError error)
         {
             Debug.LogError(error.GenerateErrorReport());
+
+            outputBoxText.text = "The server rejected your request...\nReason: " + error.ErrorMessage;
+            outputBox.color = Color.red;
         }
     }
 }

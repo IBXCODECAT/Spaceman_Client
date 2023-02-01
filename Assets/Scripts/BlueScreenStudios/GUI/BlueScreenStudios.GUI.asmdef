@@ -1,0 +1,14 @@
+{
+    "name": "BlueScreenStudios.GUI",
+    "rootNamespace": "BlueScreenStudios.GUI",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
