@@ -48,7 +48,7 @@ namespace BlueScreenStudios.Auth
         /// The flags associated with this account
         /// Example: is_staff
         /// </summary>
-        public static AccountFlags flags;
+        public static AccountFlagsData flags;
 
         /// <summary>
         /// The animator parameter key for a rejected authentication attempt
@@ -59,6 +59,8 @@ namespace BlueScreenStudios.Auth
         /// The animator parameter key for a confirmed authentication attempt
         /// </summary>
         private const string animatorKeyConfirm = "Confirm";
+
+        internal static AccountFlagsData Flags { get => flags; set => flags = value; }
         #endregion Data
 
         /// <summary>
@@ -73,12 +75,15 @@ namespace BlueScreenStudios.Auth
 
         private void Start()
         {
-            //If the player has logged in before we should present them with the login screen by default 
-            if(PlayerPrefs.GetInt("PreviousLoginCompleted") == 1) createAccountCheckbox.isOn = false;
-            else createAccountCheckbox.isOn = true;
+            if(SceneManager.GetActiveScene().name == "Authentication")
+            {
+                //If the player has logged in before we should present them with the login screen by default 
+                if (PlayerPrefs.GetInt("PreviousLoginCompleted") == 1) createAccountCheckbox.isOn = false;
+                else createAccountCheckbox.isOn = true;
 
-            //Update the GUI to reflect this change
-            UpdateGUI();
+                //Update the GUI to reflect this change
+                UpdateGUI();
+            }
         }
 
         /// <summary>
@@ -110,8 +115,6 @@ namespace BlueScreenStudios.Auth
             string username = usernameField.text;
             string email = emailField.text;
             string password = passwordField.text;
-
-            Debug.Log("Start Login user: " + username);
 
             //Authenticate the user
             if (createAccountCheckbox.isOn) Authenticate(username, email, password);
@@ -148,7 +151,7 @@ namespace BlueScreenStudios.Auth
                 Debug.LogError("CloudScript execution failed.");
             }
 
-            flags = JsonConvert.DeserializeObject<AccountFlags>(executionResult.FunctionResult.ToString());
+            flags = JsonConvert.DeserializeObject<AccountFlagsData>(executionResult.FunctionResult.ToString());
 
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }

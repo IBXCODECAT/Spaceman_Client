@@ -3,16 +3,23 @@ using UnityEngine;
 
 namespace BlueScreenStudios.InventorySystem
 {
-    public class InventorySystem 
+    public class InventorySystem : MonoBehaviour
     {
         internal Dictionary<InventoryItemData, InventoryItem> m_itemDictionary;
         internal List<InventoryItem> inventory { get; private set; }
 
-        [RuntimeInitializeOnLoadMethod]
-        void Init()
+        internal Capes capesSystem;
+
+        internal InventoryGUI gui;
+
+        private void Start()
         {
             inventory = new List<InventoryItem>();
             m_itemDictionary= new Dictionary<InventoryItemData, InventoryItem>();
+
+            capesSystem = GetComponent<Capes>();
+
+            capesSystem.GetEnabledCapes();
         }
 
         internal InventoryItem Get(InventoryItemData referenceData)

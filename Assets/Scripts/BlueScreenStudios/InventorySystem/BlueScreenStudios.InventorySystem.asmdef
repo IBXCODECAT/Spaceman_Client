@@ -1,7 +1,9 @@
 {
     "name": "BlueScreenStudios.InventorySystem",
     "rootNamespace": "BlueScreenStudios.InventorySystem",
-    "references": [],
+    "references": [
+        "GUID:c29c47be25247f04ba86b00f71a18275"
+    ],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

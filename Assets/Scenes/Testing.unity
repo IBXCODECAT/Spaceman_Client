@@ -153,7 +153,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 326419885}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &320402722
 MonoBehaviour:
@@ -212,6 +212,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1724671562}
   - {fileID: 320402721}
   - {fileID: 1317741347}
   - {fileID: 573588262}
@@ -255,7 +256,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 326419885}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &573588263
 MonoBehaviour:
@@ -269,6 +270,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3b659aa478fea5849b5d1ff023c46e3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  windowTitle: {fileID: 0}
+  usernameField: {fileID: 0}
+  emailField: {fileID: 0}
+  passwordField: {fileID: 0}
+  createAccountCheckbox: {fileID: 0}
+  authFeedbackBoxText: {fileID: 0}
+  guiAnimator: {fileID: 0}
+  windowTitleLoginMode: 
+  windowTitleCreateAccountMode: 
 --- !u!1 &865098693
 GameObject:
   m_ObjectHideFlags: 0
@@ -514,7 +524,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 326419885}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1317741348
 MonoBehaviour:
@@ -545,6 +555,81 @@ MonoBehaviour:
   m_VoxelSize: 0.33333334
   m_BuildHeightMesh: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &1724671561
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1724671562}
+  - component: {fileID: 1724671565}
+  - component: {fileID: 1724671564}
+  - component: {fileID: 1724671563}
+  m_Layer: 0
+  m_Name: Inventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1724671562
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724671561}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 326419885}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1724671563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724671561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6af2239b6b95f924b97bfb6b07ef4731, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  discordCape: {fileID: 11400000, guid: 2384f214ebf84a94d9b1379ddb917a01, type: 2}
+  earlyCape: {fileID: 11400000, guid: 8e2ac13f6f3f57242ab636a49bbc7bc6, type: 2}
+  staffCape: {fileID: 11400000, guid: 25d52b08d7af16b41a7b7b49a6bfba02, type: 2}
+--- !u!114 &1724671564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724671561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 570e67674c2d2904fbd6ef0de5d3a513, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background: {fileID: 0}
+  inventorySlotPrefab: {fileID: 0}
+--- !u!114 &1724671565
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1724671561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7a624564df2cdf4ca03ac44a9635f9b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1777815723
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -751,7 +836,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 326419885}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2131692979
 MonoBehaviour:
