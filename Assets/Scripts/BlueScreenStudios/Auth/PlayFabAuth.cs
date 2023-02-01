@@ -1,7 +1,7 @@
-using Newtonsoft;
 using Newtonsoft.Json;
 using PlayFab;
 using PlayFab.ClientModels;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,26 +11,55 @@ namespace BlueScreenStudios.Auth
 {
     public class PlayFabAuth : MonoBehaviour
     {
+        #region Inspector
         [Header("Window Title")]
+        [Tooltip("A reference to the window title.")]
         [SerializeField] private TMP_Text windowTitle;
 
         [Header("Input Fields")]
+        [Tooltip("A reference to the username field.")]
         [SerializeField] private TMP_InputField usernameField;
+        [Tooltip("A reference to the email field.")]
         [SerializeField] private TMP_InputField emailField;
+        [Tooltip("A reference to the password field.")]
         [SerializeField] private TMP_InputField passwordField;
 
         [Header("Checkboxes")]
+        [Tooltip("A reference to the 'I am creating a new account' toggle.")]
         [SerializeField] private Toggle createAccountCheckbox;
 
-        [Header("Text Settings")]
-        [SerializeField] private string windowTitleLoginMode;
-        [SerializeField] private string windowTitleCreateAccountMode;
-
         [Header("Outputs")]
-        [SerializeField] private Image outputBox;
-        [SerializeField] private TMP_Text outputBoxText;
+        [Tooltip("A reference to the text that appears in the authentication feedback box.")]
+        [SerializeField] private TMP_Text authFeedbackBoxText;
 
+        [Header("Animators")]
+        [Tooltip("A reference to the animator in charge of coloring and fading the feedback box.")]
+        [SerializeField] private Animator guiAnimator;
+
+        [Header("Text Settings")]
+        [Tooltip("This text will be displayed in the window title when the user is logging in.")]
+        [SerializeField] private string windowTitleLoginMode;
+        [Tooltip("This text will be displayed in the window title when the user is registering a new account.")]
+        [SerializeField] private string windowTitleCreateAccountMode;
+        #endregion Inspector
+
+        #region Data
+        /// <summary>
+        /// The flags associated with this account
+        /// Example: is_staff
+        /// </summary>
         public static AccountFlags flags;
+
+        /// <summary>
+        /// The animator parameter key for a rejected authentication attempt
+        /// </summary>
+        private const string animatorKeyRejected = "Reject";
+
+        /// <summary>
+        /// The animator parameter key for a confirmed authentication attempt
+        /// </summary>
+        private const string animatorKeyConfirm = "Confirm";
+        #endregion Data
 
         /// <summary>
         /// Initialize PlayFab Settings
@@ -44,36 +73,32 @@ namespace BlueScreenStudios.Auth
 
         private void Start()
         {
-            if(PlayerPrefs.GetInt("PreviousLoginCompleted") == 1)
-            {
-                createAccountCheckbox.isOn = false;
-            }
-            else
-            {
-                createAccountCheckbox.isOn = true;
-            }
+            //If the player has logged in before we should present them with the login screen by default 
+            if(PlayerPrefs.GetInt("PreviousLoginCompleted") == 1) createAccountCheckbox.isOn = false;
+            else createAccountCheckbox.isOn = true;
 
+            //Update the GUI to reflect this change
             UpdateGUI();
         }
 
         /// <summary>
-        /// Runs when the create account checkbox value is changed
+        /// Update the input fields and descriptions based on if we are loggin in or registering a new user
         /// </summary>
         public void UpdateGUI()
         {
+            //Display the email field if we are creating an account
             emailField.gameObject.SetActive(createAccountCheckbox.isOn);
 
+            //Display the appropriate message for logging in vs registering a user
             if(createAccountCheckbox.isOn)
             {
                 windowTitle.text = windowTitleCreateAccountMode;
-                outputBoxText.text = "Privacy Notice:\nBy creating an account you agree to our Terms of Service and Privacy Policy";
-                outputBox.color = Color.yellow;
+                authFeedbackBoxText.text = "Privacy Notice:\nBy creating an account you agree to our Terms of Service and Privacy Policy";
             }
             else
             {
                 windowTitle.text = windowTitleLoginMode;
-                outputBoxText.text = "Automated Account Deletion Notice:\nAccounts that are inactive for more than a year will be automatically deleted.";
-                outputBox.color = Color.cyan;
+                authFeedbackBoxText.text = "Automated Account Deletion Notice:\nAccounts that are inactive for more than a year will be automatically deleted.";
             }
         }
 
@@ -88,14 +113,9 @@ namespace BlueScreenStudios.Auth
 
             Debug.Log("Start Login user: " + username);
 
-            if (createAccountCheckbox.isOn)
-            {
-                Authenticate(username, email, password);
-            }
-            else
-            {
-                Authenticate(username, password);
-            }
+            //Authenticate the user
+            if (createAccountCheckbox.isOn) Authenticate(username, email, password);
+            else Authenticate(username, password);
         }
 
         /// <summary>
@@ -103,6 +123,7 @@ namespace BlueScreenStudios.Auth
         /// </summary>
         public void SkipAuth()
         {
+            guiAnimator.SetBool(animatorKeyConfirm, true);
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
@@ -140,6 +161,8 @@ namespace BlueScreenStudios.Auth
         /// <param name="password">The password the user wants to use to login</param>
         internal void Authenticate(string username, string email, string password)
         {
+            authFeedbackBoxText.text = "Registering Account...";
+
             RegisterPlayFabUserRequest request = new RegisterPlayFabUserRequest
             {
                 DisplayName = username,
@@ -159,6 +182,8 @@ namespace BlueScreenStudios.Auth
         /// <param name="password">The password the user uses to login</param>
         internal void Authenticate(string username, string password)
         {
+            authFeedbackBoxText.text = "Loggin In...";
+
             LoginWithPlayFabRequest request = new LoginWithPlayFabRequest
             {
                 Username = username,
@@ -181,20 +206,33 @@ namespace BlueScreenStudios.Auth
         {
             Debug.Log("Logged in:\n" + result.ToJson().ToString());
 
-            outputBoxText.text = "Success!\nLoading...";
-            outputBox.color = Color.green;
+            authFeedbackBoxText.text = "Success!\nLoading...";
 
             PlayerPrefs.SetInt("PreviousLoginCompleted", 1);
 
             GetUserFlags();
+
+            guiAnimator.SetBool(animatorKeyConfirm, true);
         }
 
         private void OnAPIError(PlayFabError error)
         {
             Debug.LogError(error.GenerateErrorReport());
 
-            outputBoxText.text = "The server rejected your request...\nReason: " + error.ErrorMessage;
-            outputBox.color = Color.red;
+            guiAnimator.SetBool(animatorKeyRejected, true);
+
+            authFeedbackBoxText.text = "The server rejected your request...\nReason: " + error.ErrorMessage;
+
+            StartCoroutine(ResetAnimator());
+        }
+
+
+        IEnumerator ResetAnimator()
+        {
+            yield return new WaitForSecondsRealtime(0.25f);
+
+            guiAnimator.SetBool(animatorKeyRejected, false);
+            guiAnimator.SetBool(animatorKeyConfirm, false);
         }
     }
 }

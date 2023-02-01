@@ -468,8 +468,9 @@ GameObject:
   - component: {fileID: 142343880}
   - component: {fileID: 142343879}
   - component: {fileID: 142343878}
+  - component: {fileID: 142343881}
   m_Layer: 5
-  m_Name: Output Box
+  m_Name: Auth Output Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -529,7 +530,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 0, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -554,6 +555,26 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 142343876}
   m_CullTransparentMesh: 1
+--- !u!95 &142343881
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 142343876}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ff0a2a6c9b6b8a040863da91a8babfc7, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &166367675
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,10 +754,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'An error occured whilst authenticating...
-
-    Waiting for the Authentication
-    Panel script to finish executing...'
+  m_text: Loading...
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 5387b29ee6c460a478aaa0ade30a5bbb, type: 2}
   m_sharedMaterial: {fileID: -4887728027905380508, guid: 5387b29ee6c460a478aaa0ade30a5bbb,
@@ -764,7 +782,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 26.5
+  m_fontSize: 55
   m_fontSizeBase: 21
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -1679,10 +1697,10 @@ MonoBehaviour:
   emailField: {fileID: 1813212661}
   passwordField: {fileID: 83148574}
   createAccountCheckbox: {fileID: 1057906223}
+  authFeedbackBoxText: {fileID: 220478527}
+  guiAnimator: {fileID: 142343881}
   windowTitleLoginMode: Welcome Back!
   windowTitleCreateAccountMode: Create Account
-  outputBox: {fileID: 142343879}
-  outputBoxText: {fileID: 220478527}
 --- !u!4 &590273688
 Transform:
   m_ObjectHideFlags: 0
