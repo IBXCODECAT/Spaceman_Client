@@ -195,8 +195,8 @@ namespace BlueScreenStudios.WorldGen
                 //For each Y coordinate on the terrain data heightmap
                 for (int heightMapY = 0; heightMapY < terrainDataHeightMap.GetLength(1); heightMapY++)
                 {
-                    float perlinSampleX = perlinSampleOffsetX - heightMapX;
-                    float perlinSampleY = perlinSampleOffsetY - heightMapY;
+                    float perlinSampleX = perlinSampleOffsetX + heightMapX;
+                    float perlinSampleY = perlinSampleOffsetY + heightMapY;
 
                     perlinSampleX *= noiseScale.x;
                     perlinSampleY *= noiseScale.y;
@@ -206,30 +206,32 @@ namespace BlueScreenStudios.WorldGen
                     if(heightMapX == 0 || heightMapY == 0)
                     {
                         //Decrease beginning value by the noise scale so chunk edges are assigned the same value match
-                        perlinSampleX += noiseScale.x;
-                        perlinSampleY += noiseScale.y;
+                        //perlinSampleX += noiseScale.x;
+                        //perlinSampleY += noiseScale.y;
                     }
 
                     float height = Mathf.PerlinNoise(perlinSampleX, perlinSampleY);
+
+                    terrainDataHeightMap[heightMapX, heightMapY] = height;
 
                     if (enableDebug)
                     {
                         //Sample our perlin noise into a color
                         Color perlinColor = new Color(height, height, height);
 
-                        
+                        //Set the heightmap coordinate (0, 0) to max on terrain and red on perlin map
                         if(heightMapX == 0 && heightMapY == 0)
                         {
-                            perlinColor = Color.red;
-                            Debug.Log(perlinSampleX + " | " + perlinSampleY);
-                        }
-                        
-                        if(perlinSampleX == 0 || perlinSampleY == 0)
-                        {
-                            perlinColor = Color.magenta;
+                            terrainDataHeightMap[0, 0] = 1f;
+                            //Debug.Log(perlinSampleX + " | " + perlinSampleY);
                         }
 
-                        if (perlinSampleX == 0 && perlinSampleY == 0)
+                        if(heightMapX == 1 && heightMapY == 1)
+                        {
+                            perlinColor = Color.red;
+                        }
+
+                        if (perlinSampleX == 3.4f && perlinSampleY == 0)
                         {
                             perlinColor = Color.green;
                             Debug.Log("[DEBUG] Green Sample: " + new Vector2(perlinSampleX, perlinSampleY) + " Height: " + height);
@@ -243,6 +245,7 @@ namespace BlueScreenStudios.WorldGen
 
                         debugTexture.SetPixel(heightMapX, heightMapY, perlinColor);
 
+                        debugObject.transform.Rotate(0, 180, 0);
                         debugObject.transform.position = chunk.GetWorldPosition();
                         debugObject.transform.parent = nestChunksUnder;
                         debugObject.name = "[DEBUG] Perlin Map";
@@ -260,8 +263,6 @@ namespace BlueScreenStudios.WorldGen
                         }
                         */
                     }
-
-                    terrainDataHeightMap[heightMapX, heightMapY] = height;
                 }
             }
 
