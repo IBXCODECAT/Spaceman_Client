@@ -195,8 +195,8 @@ namespace BlueScreenStudios.WorldGen
                 //For each Y coordinate on the terrain data heightmap
                 for (int heightMapY = 0; heightMapY < terrainDataHeightMap.GetLength(1); heightMapY++)
                 {
-                    float perlinSampleX = perlinSampleOffsetX + heightMapX;
-                    float perlinSampleY = perlinSampleOffsetY + heightMapY;
+                    float perlinSampleX = perlinSampleOffsetX - heightMapX;
+                    float perlinSampleY = perlinSampleOffsetY - heightMapY;
 
                     perlinSampleX *= noiseScale.x;
                     perlinSampleY *= noiseScale.y;
@@ -206,8 +206,8 @@ namespace BlueScreenStudios.WorldGen
                     if(heightMapX == 0 || heightMapY == 0)
                     {
                         //Decrease beginning value by the noise scale so chunk edges are assigned the same value match
-                        //perlinSampleX += noiseScale.x;
-                        //perlinSampleY += noiseScale.y;
+                        perlinSampleX += noiseScale.x;
+                        perlinSampleY += noiseScale.y;
                     }
 
                     float height = Mathf.PerlinNoise(perlinSampleX, perlinSampleY);
@@ -217,13 +217,17 @@ namespace BlueScreenStudios.WorldGen
                         //Sample our perlin noise into a color
                         Color perlinColor = new Color(height, height, height);
 
-                        /*
+                        
                         if(heightMapX == 0 && heightMapY == 0)
                         {
                             perlinColor = Color.red;
                             Debug.Log(perlinSampleX + " | " + perlinSampleY);
                         }
-                        */
+                        
+                        if(perlinSampleX == 0 || perlinSampleY == 0)
+                        {
+                            perlinColor = Color.magenta;
+                        }
 
                         if (perlinSampleX == 0 && perlinSampleY == 0)
                         {
