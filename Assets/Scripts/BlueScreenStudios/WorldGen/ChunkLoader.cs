@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using BlueScreenStudios.Common;
+using UnityEngine.Rendering;
 
 namespace BlueScreenStudios.WorldGen
 {
@@ -184,6 +185,10 @@ namespace BlueScreenStudios.WorldGen
             //Create our terrainDataHeightMap for this terrain with size of resolution
             float[,] terrainDataHeightMap = new float[heightMapResolution, heightMapResolution];
 
+            //Create a texture to overlay on top of plane for debuggin purposes
+            Texture2D debugTexture = new Texture2D(heightMapResolution, heightMapResolution);
+            GameObject debugObject = GameObject.CreatePrimitive(PrimitiveType.Plane);
+
             //For each X coordinate on the terrain data heightmap
             for (int heightMapX = 0; heightMapX < terrainDataHeightMap.GetLength(0); heightMapX++)
             {
@@ -201,14 +206,45 @@ namespace BlueScreenStudios.WorldGen
                     if(heightMapX == 0 || heightMapY == 0)
                     {
                         //Decrease beginning value by the noise scale so chunk edges are assigned the same value match
-                        perlinSampleX -= noiseScale.x;
-                        perlinSampleY -= noiseScale.y;
+                        //perlinSampleX += noiseScale.x;
+                        //perlinSampleY += noiseScale.y;
                     }
 
                     float height = Mathf.PerlinNoise(perlinSampleX, perlinSampleY);
 
                     if (enableDebug)
                     {
+                        //Sample our perlin noise into a color
+                        Color perlinColor = new Color(height, height, height);
+
+                        /*
+                        if(heightMapX == 0 && heightMapY == 0)
+                        {
+                            perlinColor = Color.red;
+                            Debug.Log(perlinSampleX + " | " + perlinSampleY);
+                        }
+                        */
+
+                        if (perlinSampleX == 0 && perlinSampleY == 0)
+                        {
+                            perlinColor = Color.green;
+                            Debug.Log("[DEBUG] Green Sample: " + new Vector2(perlinSampleX, perlinSampleY) + " Height: " + height);
+                        }
+
+                        if(perlinSampleX == 3.3f && perlinSampleY == 0)
+                        {
+                            perlinColor = Color.blue;
+                            Debug.Log("[DEBUG] Blue Sample: " + new Vector2(perlinSampleX, perlinSampleY) + " Height: " +  height);
+                        }
+
+                        debugTexture.SetPixel(heightMapX, heightMapY, perlinColor);
+
+                        debugObject.transform.position = chunk.GetWorldPosition();
+                        debugObject.transform.parent = nestChunksUnder;
+                        debugObject.name = "[DEBUG] Perlin Map";
+                        
+                        /*
+                        //Debug Logs
                         if (chunkOffsetX == logChunkX && chunkOffsetY == logChunkY && heightMapX == 32)
                         {
                             Debug.Log("THIS CHUNK > Perlin Sampled : " + new Vector2(perlinSampleX, perlinSampleY) + " Heightmap Set: " + new Vector2(heightMapX, heightMapY) + " CH: " + height + " AH: " + Mathf.PerlinNoise(perlinSampleX, perlinSampleY), chunk.gameObject);
@@ -218,10 +254,31 @@ namespace BlueScreenStudios.WorldGen
                         {
                             Debug.Log("NEXT CHUNK > Perlin Sampled : " + new Vector2(perlinSampleX, perlinSampleY) + " Heightmap Set: " + new Vector2(heightMapX, heightMapY) + " CH: " + height + " AH: " + Mathf.PerlinNoise(perlinSampleX, perlinSampleY), chunk.gameObject);
                         }
+                        */
                     }
 
                     terrainDataHeightMap[heightMapX, heightMapY] = height;
                 }
+            }
+
+            //Is debug mode neabled...
+            if(enableDebug)
+            {
+                //Apply all of our changes to the perlin texture
+                debugTexture.Apply();
+
+                //Get the renderer and material components for the debugObject
+                Renderer debugChunkRender = debugObject.GetComponent<Renderer>();
+                Material chunkMaterial = debugChunkRender.material;
+
+                //Disable Shadows
+                debugChunkRender.shadowCastingMode = ShadowCastingMode.Off;
+
+                //Display on both sides, apply perlin texture, set smoothness 0 and color white for visibility
+                chunkMaterial.SetFloat("_Cull", (float)CullMode.Off);
+                chunkMaterial.SetTexture("_BaseMap", debugTexture);
+                chunkMaterial.SetFloat("_smoothness", 0);
+                chunkMaterial.color = Color.white;
             }
 
             data.SetHeights(0, 0, terrainDataHeightMap);
