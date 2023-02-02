@@ -172,7 +172,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 2147483647
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &320402721
 Transform:
   m_ObjectHideFlags: 0
@@ -374,7 +374,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -1172,7 +1172,7 @@ MonoBehaviour:
   renderDistance: 50
   chunkSize: 10
   instantiationHeight: 0
-  terrainDataY: 0.75
+  terrainDataY: 1
   recalculationDelay: 3
   noiseOctaves: 1
   noiseScale: {x: 0.1, y: 0.1}

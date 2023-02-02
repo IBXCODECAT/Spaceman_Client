@@ -202,12 +202,18 @@ namespace BlueScreenStudios.WorldGen
                     perlinSampleY *= noiseScale.y;
 
                     
-                    //If this the first row/column of the height map...
-                    if(heightMapX == 0 || heightMapY == 0)
+                    //If this the first row on our height map...
+                    if(heightMapX == 0)
                     {
-                        //Decrease beginning value by the noise scale so chunk edges are assigned the same value match
-                        //perlinSampleX += noiseScale.x;
-                        //perlinSampleY += noiseScale.y;
+                        //Offset the sample by one perlin sample so border height aligns with the previuos chunk
+                        perlinSampleX -= noiseScale.x;
+                    }
+
+                    //If this is the first column in our height map...
+                    if(heightMapY == 0)
+                    {
+                        //Offset the sample by one perlin sample so border height aligns with the previuos chunk
+                        perlinSampleY -= noiseScale.y;
                     }
 
                     float height = Mathf.PerlinNoise(perlinSampleX, perlinSampleY);
@@ -223,7 +229,6 @@ namespace BlueScreenStudios.WorldGen
                         if(heightMapX == 0 && heightMapY == 0)
                         {
                             terrainDataHeightMap[0, 0] = 1f;
-                            //Debug.Log(perlinSampleX + " | " + perlinSampleY);
                         }
 
                         if(heightMapX == 1 && heightMapY == 1)
@@ -231,13 +236,13 @@ namespace BlueScreenStudios.WorldGen
                             perlinColor = Color.red;
                         }
 
-                        if (perlinSampleX == 3.4f && perlinSampleY == 0)
+                        if (perlinSampleX == 3.3f && perlinSampleY == 0)
                         {
                             perlinColor = Color.green;
                             Debug.Log("[DEBUG] Green Sample: " + new Vector2(perlinSampleX, perlinSampleY) + " Height: " + height);
                         }
 
-                        if(perlinSampleX == 3.3f && perlinSampleY == 0)
+                        if(perlinSampleX == 3.2f && perlinSampleY == 0)
                         {
                             perlinColor = Color.blue;
                             Debug.Log("[DEBUG] Blue Sample: " + new Vector2(perlinSampleX, perlinSampleY) + " Height: " +  height);
