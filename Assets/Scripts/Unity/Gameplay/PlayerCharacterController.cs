@@ -50,6 +50,9 @@ namespace Unity.FPS.Gameplay
         [Range(0.1f, 1f)] [Tooltip("Rotation speed multiplier when aiming")]
         public float AimingRotationMultiplier = 0.4f;
 
+        [SerializeField] private float minLookX;
+        [SerializeField] private float maxLookX;
+
         [Header("Jump")] [Tooltip("Force applied upward when jumping")]
         public float JumpForce = 9f;
 
@@ -281,7 +284,7 @@ namespace Unity.FPS.Gameplay
                 m_CameraVerticalAngle += m_InputHandler.GetLookInputsVertical() * RotationSpeed * RotationMultiplier;
 
                 // limit the camera's vertical angle to min/max
-                m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -89f, 89f);
+                m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, minLookX, maxLookX);
 
                 // apply the vertical angle as a local rotation to the camera transform along its right axis (makes it pivot up and down)
                 PlayerCamera.transform.localEulerAngles = new Vector3(m_CameraVerticalAngle, 0, 0);
