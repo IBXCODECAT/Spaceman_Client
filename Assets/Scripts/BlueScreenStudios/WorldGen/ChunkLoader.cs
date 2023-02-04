@@ -236,13 +236,13 @@ namespace BlueScreenStudios.WorldGen
                             perlinColor = Color.red;
                         }
 
-                        if (perlinSampleX == 3.3f && perlinSampleY == 0)
+                        if (perlinSampleX == 3.3f && perlinSampleY == -0.1)
                         {
                             perlinColor = Color.green;
                             Debug.Log("[DEBUG] Green Sample: " + new Vector2(perlinSampleX, perlinSampleY) + " Height: " + height);
                         }
 
-                        if(perlinSampleX == 3.2f && perlinSampleY == 0)
+                        if(perlinSampleX == 3.2f && perlinSampleY == -0.1)
                         {
                             perlinColor = Color.blue;
                             Debug.Log("[DEBUG] Blue Sample: " + new Vector2(perlinSampleX, perlinSampleY) + " Height: " +  height);
@@ -254,19 +254,6 @@ namespace BlueScreenStudios.WorldGen
                         debugObject.transform.position = chunk.GetWorldPosition();
                         debugObject.transform.parent = nestChunksUnder;
                         debugObject.name = "[DEBUG] Perlin Map";
-                        
-                        /*
-                        //Debug Logs
-                        if (chunkOffsetX == logChunkX && chunkOffsetY == logChunkY && heightMapX == 32)
-                        {
-                            Debug.Log("THIS CHUNK > Perlin Sampled : " + new Vector2(perlinSampleX, perlinSampleY) + " Heightmap Set: " + new Vector2(heightMapX, heightMapY) + " CH: " + height + " AH: " + Mathf.PerlinNoise(perlinSampleX, perlinSampleY), chunk.gameObject);
-                        }
-
-                        if(chunkOffsetX == (logChunkX + 1) && chunkOffsetY == logChunkY && heightMapX == 32)
-                        {
-                            Debug.Log("NEXT CHUNK > Perlin Sampled : " + new Vector2(perlinSampleX, perlinSampleY) + " Heightmap Set: " + new Vector2(heightMapX, heightMapY) + " CH: " + height + " AH: " + Mathf.PerlinNoise(perlinSampleX, perlinSampleY), chunk.gameObject);
-                        }
-                        */
                     }
                 }
             }
