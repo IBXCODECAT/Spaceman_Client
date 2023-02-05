@@ -65,9 +65,9 @@ namespace BlueScreenStudios.Vehicles
             transform.position += transform.forward * activeForwardSpeed * Time.deltaTime;
             transform.position += transform.right * activeStrafeSpeed * Time.deltaTime;
 
-            if(Input.GetAxis("Vertical") > 0.1f)
+            if (Input.GetAxis("Vertical") > 0.1f)
             {
-                foreach(TrailRenderer trail in afterburnerTrails)
+                foreach (TrailRenderer trail in afterburnerTrails)
                 {
                     trail.enabled = true;
                 }
