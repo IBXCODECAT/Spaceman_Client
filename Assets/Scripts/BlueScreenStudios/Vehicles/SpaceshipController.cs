@@ -1,4 +1,6 @@
+using BlueScreenStudios.Input;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace BlueScreenStudios.Vehicles
 {
@@ -34,38 +36,80 @@ namespace BlueScreenStudios.Vehicles
         private Vector2 displayCenter;
         private Vector2 mouseDistance;
 
-
-        private void Start()
+        private void Awake()
         {
             displayCenter.x = Screen.width * 0.5f;
             displayCenter.y = Screen.height * 0.5f;
 
             Cursor.lockState = CursorLockMode.Confined;
 
+            //Set up Input System
+            InputActions input = new InputActions();
+            input.Vehicles.Enable();
+
+            //Subscribe to InputSystem "Performed" events
+            input.Vehicles.Steering.performed += Steering_Applied;
+            input.Vehicles.Thrust.performed += Thrust_Applied;
+            input.Vehicles.Roll.performed += Roll_Performed;
+
+            //Subscribe to InputSystem "Cancelled" Events
+            input.Vehicles.Thrust.canceled += Thrust_canceled;
+            input.Vehicles.Roll.canceled += Roll_canceled;
         }
+
+        //Input Variables set by the Input C# Events
+        private Vector2 steeringInputVector;
+        private Vector2 thrustInputVector;
+        private float rollInputFloat;
+
+        private void Steering_Applied(InputAction.CallbackContext context)
+        {
+            steeringInputVector = context.ReadValue<Vector2>();
+        }
+
+        private void Thrust_Applied(InputAction.CallbackContext context)
+        {
+            thrustInputVector = context.ReadValue<Vector2>();
+        }
+
+        private void Thrust_canceled(InputAction.CallbackContext obj)
+        {
+            thrustInputVector = Vector2.zero;
+        }
+
+        private void Roll_Performed(InputAction.CallbackContext context)
+        {
+            rollInputFloat = context.ReadValue<float>();
+        }
+
+        private void Roll_canceled(InputAction.CallbackContext obj)
+        {
+            rollInputFloat = 0f;
+        }
+
         // Update is called once per frame
         void Update()
         {
-            activeLookRate.x = Input.mousePosition.x;
-            activeLookRate.y = Input.mousePosition.y;
+            activeLookRate.x = steeringInputVector.x;
+            activeLookRate.y = steeringInputVector.y;
 
             mouseDistance.x = (activeLookRate.x - displayCenter.x) / displayCenter.y;
             mouseDistance.y = (activeLookRate.y - displayCenter.y) / displayCenter.x;
 
             mouseDistance = Vector2.ClampMagnitude(mouseDistance, 1);
 
-            activeRollRate = Mathf.Lerp(activeRollRate, Input.GetAxisRaw("Roll"), rollAceleration * Time.deltaTime);
+            activeRollRate = Mathf.Lerp(activeRollRate, rollInputFloat, rollAceleration * Time.deltaTime);
 
             transform.Rotate(-mouseDistance.y * lookRate * Time.deltaTime, mouseDistance.x * lookRate * Time.deltaTime, activeRollRate * rollRate * Time.deltaTime, Space.Self);
 
-            activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, Input.GetAxis("Vertical") * forwardSpeed, forwardAceleration * Time.deltaTime);
-            activeStrafeSpeed = Mathf.Lerp(activeStrafeSpeed, Input.GetAxis("Horizontal") * strafeSpeed, strafeAceleration * Time.deltaTime);
+            activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, thrustInputVector.y * forwardSpeed, forwardAceleration * Time.deltaTime);
+            activeStrafeSpeed = Mathf.Lerp(activeStrafeSpeed, thrustInputVector.x * strafeSpeed, strafeAceleration * Time.deltaTime);
             //activeHoverSpeed = Mathf.Lerp(activeHoverSpeed, Input.GetAxis("Hover") * hoverSpeed, hoverAceleration * Time.deltaTime);
 
             transform.position += transform.forward * activeForwardSpeed * Time.deltaTime;
             transform.position += transform.right * activeStrafeSpeed * Time.deltaTime;
 
-            if (Input.GetAxis("Vertical") > 0.1f)
+            if (thrustInputVector.y > 0.1f)
             {
                 foreach (TrailRenderer trail in afterburnerTrails)
                 {
