@@ -1,6 +1,7 @@
 using BlueScreenStudios.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.VFX;
 
 namespace BlueScreenStudios.Vehicles
 {
@@ -23,8 +24,10 @@ namespace BlueScreenStudios.Vehicles
         [SerializeField] private float rollRate;
         [SerializeField] private float rollAceleration;
 
-        [Header("Effects")]
-        [SerializeField] TrailRenderer[] afterburnerTrails;
+        [Header("Visual Effects")]
+        [SerializeField] private float effectTriggerThreshold;
+        [SerializeField] private float afterburnerTime;
+        [SerializeField] private VisualEffect[] afterburnerVFX;
 
         private float activeForwardSpeed = 1f;
         private float activeStrafeSpeed = 1f;
@@ -109,18 +112,24 @@ namespace BlueScreenStudios.Vehicles
             transform.position += transform.forward * activeForwardSpeed * Time.deltaTime;
             transform.position += transform.right * activeStrafeSpeed * Time.deltaTime;
 
-            if (thrustInputVector.y > 0.1f)
+            UpdateAfterBurnerVFX();
+        }
+
+        private void UpdateAfterBurnerVFX()
+        {
+            if(thrustInputVector.y > effectTriggerThreshold)
             {
-                foreach (TrailRenderer trail in afterburnerTrails)
+                foreach(VisualEffect effect in afterburnerVFX)
                 {
-                    trail.enabled = true;
+                    effect.SetFloat("Beam Velocity", -activeForwardSpeed);
+                    effect.SetFloat("Time Alive", afterburnerTime);
                 }
             }
             else
             {
-                foreach (TrailRenderer trail in afterburnerTrails)
+                foreach(VisualEffect effect in afterburnerVFX)
                 {
-                    trail.enabled = false;
+                    effect.SetFloat("Time Alive", 0f);
                 }
             }
         }
