@@ -459,10 +459,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: f9a8fb02779a9e2429a88a82da930e4e, type: 2}
   baseColor: {r: 1, g: 1, b: 1, a: 0}
-  emissionColor: {r: 8, g: 8, b: 8, a: 1}
-  baseMap: CapeStaff_Base.png
+  emissionColor: {r: 1, g: 1, b: 1, a: 1}
+  baseMap: CapeDiscord_Base.png
   normalMap: Cloth_Normal.png
-  emissionMap: CapeStaff_Emission.png
+  emissionMap: CapeDiscord_Base.png
 --- !u!183 &447439600
 Cloth:
   m_ObjectHideFlags: 0
@@ -1705,10 +1705,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: f9a8fb02779a9e2429a88a82da930e4e, type: 2}
   baseColor: {r: 1, g: 1, b: 1, a: 0}
-  emissionColor: {r: 8, g: 8, b: 8, a: 1}
-  baseMap: CapeStaff_Base.png
+  emissionColor: {r: 1, g: 1, b: 1, a: 1}
+  baseMap: CapeDiscord_Base.png
   normalMap: Cloth_Normal.png
-  emissionMap: CapeStaff_Emission.png
+  emissionMap: CapeDiscord_Base.png
 --- !u!137 &536398582
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 0
@@ -4568,7 +4568,7 @@ GameObject:
   - component: {fileID: 536398583}
   - component: {fileID: 536398581}
   m_Layer: 0
-  m_Name: Staff Cape Right
+  m_Name: Discord Cape Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4605,7 +4605,7 @@ GameObject:
   - component: {fileID: 447439601}
   - component: {fileID: 447439596}
   m_Layer: 0
-  m_Name: Staff Cape Left
+  m_Name: Discord Cape Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

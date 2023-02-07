@@ -26,11 +26,9 @@ namespace BlueScreenStudios.Common
             string basePath = Application.streamingAssetsPath + "/Textures/";
             
             StartCoroutine(LoadTextureFromCache(basePath + baseMap, "_BaseColorMap"));
+            StartCoroutine(LoadTextureFromCache(basePath + baseMap, "_MainTex"));
 
             material.EnableKeyword("_NORMALMAP_TANGENT_SPACE");
-            material.EnableKeyword("_EMISSIVE_MAPPING_BASE");
-            material.EnableKeyword("_EMISSIVE_MAPPING_TRIPLANAR");
-            material.EnableKeyword("_EMISSIVE_MAPPING_PLANAR");
 
             StartCoroutine(LoadTextureFromCache(basePath + normalMap, "_NormalMap"));
 
