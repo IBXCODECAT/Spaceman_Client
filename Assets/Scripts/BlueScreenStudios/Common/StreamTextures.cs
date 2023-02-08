@@ -21,9 +21,10 @@ namespace BlueScreenStudios.Common
         [SerializeField] internal string normalMap;
         [SerializeField] internal string emissionMap;
 
+        private string basePath = Application.streamingAssetsPath + "/Textures/";
+
         private void Awake()
         {
-            string basePath = Application.streamingAssetsPath + "/Textures/";
             
             StartCoroutine(LoadTextureFromCache(basePath + baseMap, "_BaseColorMap"));
             StartCoroutine(LoadTextureFromCache(basePath + baseMap, "_MainTex"));
@@ -40,21 +41,22 @@ namespace BlueScreenStudios.Common
 
         IEnumerator LoadTextureFromCache(string filePath, string mapName)
         {
-            if (!File.Exists(filePath))
+            if (filePath != basePath)
             {
-                Debug.LogError("Could not find file: " + filePath);
-                yield break;
+                if (!File.Exists(filePath))
+                {
+                    Debug.LogError("Could not find file: " + filePath);
+                    yield break;
+                }
+
+                UnityWebRequest uwr = UnityWebRequestTexture.GetTexture("file://" + filePath);
+
+                yield return uwr.SendWebRequest();
+
+                Texture2D texture = DownloadHandlerTexture.GetContent(uwr);
+
+                material.SetTexture(mapName, texture);
             }
-            
-            UnityWebRequest uwr = UnityWebRequestTexture.GetTexture("file://" + filePath);
-            
-            yield return uwr.SendWebRequest();
-            
-            Texture2D texture = DownloadHandlerTexture.GetContent(uwr);
-
-            material.SetTexture(mapName, texture);
-
-            Debug.Log("Done");
         }
     }
 }

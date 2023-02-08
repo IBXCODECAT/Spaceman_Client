@@ -28,6 +28,10 @@ namespace BlueScreenStudios.Vehicles
         [SerializeField] private float effectTriggerThreshold;
         [SerializeField] private float afterburnerTime;
         [SerializeField] private VisualEffect[] afterburnerVFX;
+        [SerializeField] private Light[] afterburnerLights;
+
+        [Header("Audio")]
+        [SerializeField] private AudioSource afterburnerAudiosource;
 
         private float activeForwardSpeed = 1f;
         private float activeStrafeSpeed = 1f;
@@ -115,14 +119,22 @@ namespace BlueScreenStudios.Vehicles
             UpdateAfterBurnerVFX();
         }
 
+        /// <summary>
+        /// Updates the afterburner VFX to reflect the current input
+        /// </summary>
         private void UpdateAfterBurnerVFX()
         {
             if(thrustInputVector.y > effectTriggerThreshold)
             {
                 foreach(VisualEffect effect in afterburnerVFX)
                 {
-                    effect.SetFloat("Beam Velocity", -activeForwardSpeed);
-                    effect.SetFloat("Time Alive", afterburnerTime);
+                    effect.SetFloat("Time Alive", thrustInputVector.y * afterburnerTime);
+                    effect.enabled = true;
+                }
+
+                foreach(Light light in afterburnerLights)
+                {
+                    light.intensity = thrustInputVector.y;
                 }
             }
             else
@@ -130,6 +142,12 @@ namespace BlueScreenStudios.Vehicles
                 foreach(VisualEffect effect in afterburnerVFX)
                 {
                     effect.SetFloat("Time Alive", 0f);
+                    effect.enabled = false;
+                }
+
+                foreach(Light light in afterburnerLights)
+                {
+                    light.intensity = 0;
                 }
             }
         }
