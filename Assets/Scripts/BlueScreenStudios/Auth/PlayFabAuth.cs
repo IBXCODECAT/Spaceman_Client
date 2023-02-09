@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 
 namespace BlueScreenStudios.Auth
 {
+    [RequireComponent(typeof(DiscordConnection))]
     public class PlayFabAuth : MonoBehaviour
     {
         #region Inspector
@@ -214,6 +215,7 @@ namespace BlueScreenStudios.Auth
             PlayerPrefs.SetInt("PreviousLoginCompleted", 1);
 
             GetUserFlags();
+            GetComponent<DiscordConnection>().SendDiscordTokenExchange();
 
             guiAnimator.SetBool(animatorKeyConfirm, true);
         }
