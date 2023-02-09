@@ -57,7 +57,7 @@ namespace BlueScreenStudios.Input
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Steering"",
+                    ""name"": ""Look/Steer"",
                     ""type"": ""Value"",
                     ""id"": ""a893e93a-aae0-4dc4-afd7-d761b9432701"",
                     ""expectedControlType"": ""Vector2"",
@@ -301,7 +301,7 @@ namespace BlueScreenStudios.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Steering"",
+                    ""action"": ""Look/Steer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -312,7 +312,7 @@ namespace BlueScreenStudios.Input
                     ""interactions"": """",
                     ""processors"": ""InvertVector2"",
                     ""groups"": """",
-                    ""action"": ""Steering"",
+                    ""action"": ""Look/Steer"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
@@ -323,7 +323,7 @@ namespace BlueScreenStudios.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Steering"",
+                    ""action"": ""Look/Steer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -334,7 +334,7 @@ namespace BlueScreenStudios.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Steering"",
+                    ""action"": ""Look/Steer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -345,7 +345,7 @@ namespace BlueScreenStudios.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Steering"",
+                    ""action"": ""Look/Steer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -356,7 +356,7 @@ namespace BlueScreenStudios.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Steering"",
+                    ""action"": ""Look/Steer"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -653,7 +653,7 @@ namespace BlueScreenStudios.Input
             m_Vehicles_Thrust = m_Vehicles.FindAction("Thrust", throwIfNotFound: true);
             m_Vehicles_Hover = m_Vehicles.FindAction("Hover", throwIfNotFound: true);
             m_Vehicles_Roll = m_Vehicles.FindAction("Roll", throwIfNotFound: true);
-            m_Vehicles_Steering = m_Vehicles.FindAction("Steering", throwIfNotFound: true);
+            m_Vehicles_LookSteer = m_Vehicles.FindAction("Look/Steer", throwIfNotFound: true);
             m_Vehicles_Fire = m_Vehicles.FindAction("Fire", throwIfNotFound: true);
             m_Vehicles_CursorModeKeyboardOnly = m_Vehicles.FindAction("Cursor Mode (Keyboard Only)", throwIfNotFound: true);
             // GUI
@@ -723,7 +723,7 @@ namespace BlueScreenStudios.Input
         private readonly InputAction m_Vehicles_Thrust;
         private readonly InputAction m_Vehicles_Hover;
         private readonly InputAction m_Vehicles_Roll;
-        private readonly InputAction m_Vehicles_Steering;
+        private readonly InputAction m_Vehicles_LookSteer;
         private readonly InputAction m_Vehicles_Fire;
         private readonly InputAction m_Vehicles_CursorModeKeyboardOnly;
         public struct VehiclesActions
@@ -733,7 +733,7 @@ namespace BlueScreenStudios.Input
             public InputAction @Thrust => m_Wrapper.m_Vehicles_Thrust;
             public InputAction @Hover => m_Wrapper.m_Vehicles_Hover;
             public InputAction @Roll => m_Wrapper.m_Vehicles_Roll;
-            public InputAction @Steering => m_Wrapper.m_Vehicles_Steering;
+            public InputAction @LookSteer => m_Wrapper.m_Vehicles_LookSteer;
             public InputAction @Fire => m_Wrapper.m_Vehicles_Fire;
             public InputAction @CursorModeKeyboardOnly => m_Wrapper.m_Vehicles_CursorModeKeyboardOnly;
             public InputActionMap Get() { return m_Wrapper.m_Vehicles; }
@@ -754,9 +754,9 @@ namespace BlueScreenStudios.Input
                     @Roll.started -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnRoll;
                     @Roll.performed -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnRoll;
                     @Roll.canceled -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnRoll;
-                    @Steering.started -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnSteering;
-                    @Steering.performed -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnSteering;
-                    @Steering.canceled -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnSteering;
+                    @LookSteer.started -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnLookSteer;
+                    @LookSteer.performed -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnLookSteer;
+                    @LookSteer.canceled -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnLookSteer;
                     @Fire.started -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnFire;
                     @Fire.performed -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnFire;
                     @Fire.canceled -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnFire;
@@ -776,9 +776,9 @@ namespace BlueScreenStudios.Input
                     @Roll.started += instance.OnRoll;
                     @Roll.performed += instance.OnRoll;
                     @Roll.canceled += instance.OnRoll;
-                    @Steering.started += instance.OnSteering;
-                    @Steering.performed += instance.OnSteering;
-                    @Steering.canceled += instance.OnSteering;
+                    @LookSteer.started += instance.OnLookSteer;
+                    @LookSteer.performed += instance.OnLookSteer;
+                    @LookSteer.canceled += instance.OnLookSteer;
                     @Fire.started += instance.OnFire;
                     @Fire.performed += instance.OnFire;
                     @Fire.canceled += instance.OnFire;
@@ -861,7 +861,7 @@ namespace BlueScreenStudios.Input
             void OnThrust(InputAction.CallbackContext context);
             void OnHover(InputAction.CallbackContext context);
             void OnRoll(InputAction.CallbackContext context);
-            void OnSteering(InputAction.CallbackContext context);
+            void OnLookSteer(InputAction.CallbackContext context);
             void OnFire(InputAction.CallbackContext context);
             void OnCursorModeKeyboardOnly(InputAction.CallbackContext context);
         }

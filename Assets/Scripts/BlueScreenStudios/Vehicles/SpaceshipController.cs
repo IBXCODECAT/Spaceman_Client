@@ -40,22 +40,16 @@ namespace BlueScreenStudios.Vehicles
         private float activeRollRate;
 
         private Vector2 activeLookRate;
-        private Vector2 displayCenter;
         private Vector2 mouseDistance;
 
         private void Awake()
         {
-            displayCenter.x = Screen.width * 0.5f;
-            displayCenter.y = Screen.height * 0.5f;
-
             Cursor.lockState = CursorLockMode.Confined;
 
             //Set up Input System
-            InputActions input = new InputActions();
-            input.Vehicles.Enable();
+            InputActions input = VehicleInput.VehicleInputActions;
 
             //Subscribe to InputSystem "Performed" events
-            input.Vehicles.Steering.performed += Steering_Applied;
             input.Vehicles.Thrust.performed += Thrust_Applied;
             input.Vehicles.Roll.performed += Roll_Performed;
 
@@ -65,14 +59,8 @@ namespace BlueScreenStudios.Vehicles
         }
 
         //Input Variables set by the Input C# Events
-        private Vector2 steeringInputVector;
         private Vector2 thrustInputVector;
         private float rollInputFloat;
-
-        private void Steering_Applied(InputAction.CallbackContext context)
-        {
-            steeringInputVector = context.ReadValue<Vector2>();
-        }
 
         private void Thrust_Applied(InputAction.CallbackContext context)
         {
@@ -97,17 +85,20 @@ namespace BlueScreenStudios.Vehicles
         // Update is called once per frame
         void Update()
         {
-            activeLookRate.x = steeringInputVector.x;
-            activeLookRate.y = steeringInputVector.y;
+            if (!VehicleInput.InCursorMode)
+            {
+                activeLookRate.x = VehicleInput.MouseInput.x;
+                activeLookRate.y = VehicleInput.MouseInput.y;
 
-            mouseDistance.x = (activeLookRate.x - displayCenter.x) / displayCenter.y;
-            mouseDistance.y = (activeLookRate.y - displayCenter.y) / displayCenter.x;
+                mouseDistance.x = (activeLookRate.x - VehicleInput.DisplayCenter.x) / VehicleInput.DisplayCenter.y;
+                mouseDistance.y = (activeLookRate.y - VehicleInput.DisplayCenter.y) / VehicleInput.DisplayCenter.x;
 
-            mouseDistance = Vector2.ClampMagnitude(mouseDistance, 1);
+                mouseDistance = Vector2.ClampMagnitude(mouseDistance, 1);
 
-            activeRollRate = Mathf.Lerp(activeRollRate, rollInputFloat, rollAceleration * Time.deltaTime);
+                activeRollRate = Mathf.Lerp(activeRollRate, rollInputFloat, rollAceleration * Time.deltaTime);
 
-            transform.Rotate(-mouseDistance.y * lookRate * Time.deltaTime, mouseDistance.x * lookRate * Time.deltaTime, activeRollRate * rollRate * Time.deltaTime, Space.Self);
+                transform.Rotate(-mouseDistance.y * lookRate * Time.deltaTime, mouseDistance.x * lookRate * Time.deltaTime, activeRollRate * rollRate * Time.deltaTime, Space.Self);
+            }
 
             activeForwardSpeed = Mathf.Lerp(activeForwardSpeed, thrustInputVector.y * forwardSpeed, forwardAceleration * Time.deltaTime);
             activeStrafeSpeed = Mathf.Lerp(activeStrafeSpeed, thrustInputVector.x * strafeSpeed, strafeAceleration * Time.deltaTime);
