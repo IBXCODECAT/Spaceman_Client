@@ -1,4 +1,5 @@
 using UnityEngine;
+using BlueScreenStudios.Input;
 
 namespace BlueScreenStudios.GUI
 {
@@ -10,7 +11,13 @@ namespace BlueScreenStudios.GUI
 		Quaternion mStart;
 		Vector2 mRot = Vector2.zero;
 
-		void Start()
+		
+        private void Awake()
+        {
+			InputActions input = new InputActions();
+        }
+
+        void Start()
 		{
 			mTrans = transform;
 			mStart = mTrans.localRotation;
@@ -18,7 +25,7 @@ namespace BlueScreenStudios.GUI
 
 		void Update()
 		{
-			Vector3 pos = Input.mousePosition;
+			Vector3 pos = GUIInput.MouseInput;
 
 			float halfWidth = Screen.width * 0.5f;
 			float halfHeight = Screen.height * 0.5f;

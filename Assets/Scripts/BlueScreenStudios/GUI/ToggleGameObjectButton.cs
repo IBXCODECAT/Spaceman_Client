@@ -1,5 +1,4 @@
-﻿using Unity.FPS.Game;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace BlueScreenStudios.GUI
@@ -11,10 +10,12 @@ namespace BlueScreenStudios.GUI
 
         void Update()
         {
+            /*
             if (ObjectToToggle.activeSelf && Input.GetButtonDown(GameConstants.k_ButtonNameCancel))
             {
                 SetGameObjectActive(false);
             }
+            */
         }
 
         public void SetGameObjectActive(bool active)

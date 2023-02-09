@@ -37,6 +37,7 @@ namespace BlueScreenStudios.GUI
         ScreenshotPanel.SetActive(false);
         m_IsFeatureDisable = true;
 #else
+            /*
             m_IsFeatureDisable = false;
 
             var gameMenuManager = GetComponent<InGameMenuManager>();
@@ -48,6 +49,7 @@ namespace BlueScreenStudios.GUI
                 gameMenuManager.MenuRoot.gameObject);
 
             LoadScreenshot();
+            */
 #endif
         }
 

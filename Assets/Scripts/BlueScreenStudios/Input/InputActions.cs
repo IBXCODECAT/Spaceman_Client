@@ -82,6 +82,15 @@ namespace BlueScreenStudios.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Zoom"",
+                    ""type"": ""Value"",
+                    ""id"": ""0a1673c2-df05-4464-973a-086b4b33e31d"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -425,6 +434,17 @@ namespace BlueScreenStudios.Input
                     ""action"": ""Hover"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""85d6e942-1ea1-4e3b-8a94-b8d4dfb1cef6"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Zoom"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -442,13 +462,13 @@ namespace BlueScreenStudios.Input
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Select"",
-                    ""type"": ""Button"",
-                    ""id"": ""6c6dc4e4-4b22-4480-862f-7afdf0db1ddd"",
-                    ""expectedControlType"": ""Button"",
+                    ""name"": ""Point"",
+                    ""type"": ""Value"",
+                    ""id"": ""77661a42-6928-4e01-9c74-98121785d7c1"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": false
+                    ""initialStateCheck"": true
                 },
                 {
                     ""name"": ""Navigate"",
@@ -458,9 +478,80 @@ namespace BlueScreenStudios.Input
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Primary Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""6c6dc4e4-4b22-4480-862f-7afdf0db1ddd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Secondary Select"",
+                    ""type"": ""Button"",
+                    ""id"": ""68c6e55e-5d32-4f1e-9c85-63b25f4cfc6a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Scroll"",
+                    ""type"": ""Value"",
+                    ""id"": ""c6ef34c4-6231-496e-a6f4-e40867b211ad"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""b31f2cc4-24d6-41c0-aefa-80aa0f8de98a"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Primary Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b8eaf3a5-2a33-460e-97c1-6aeea18fc934"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Primary Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ab8467b0-021a-4c56-962c-8f519e50e831"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Secondary Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""612d5d47-964a-47d7-b3b9-3f6b1e1c681b"",
+                    ""path"": ""<Gamepad>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Secondary Select"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
                 {
                     ""name"": """",
                     ""id"": ""973db9d6-1762-4900-9219-5f078170abce"",
@@ -485,23 +576,12 @@ namespace BlueScreenStudios.Input
                 },
                 {
                     ""name"": """",
-                    ""id"": ""b31f2cc4-24d6-41c0-aefa-80aa0f8de98a"",
-                    ""path"": ""<Mouse>/leftButton"",
+                    ""id"": ""1f6daf44-033b-4f3f-a92d-19d9b6111972"",
+                    ""path"": ""<Mouse>/scroll"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Select"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""b8eaf3a5-2a33-460e-97c1-6aeea18fc934"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Gamepad"",
-                    ""action"": ""Select"",
+                    ""action"": ""Scroll"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -614,6 +694,17 @@ namespace BlueScreenStudios.Input
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2e802a78-ac1d-49b3-86dd-b01d996f464f"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Point"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -656,11 +747,15 @@ namespace BlueScreenStudios.Input
             m_Vehicles_LookSteer = m_Vehicles.FindAction("Look/Steer", throwIfNotFound: true);
             m_Vehicles_Fire = m_Vehicles.FindAction("Fire", throwIfNotFound: true);
             m_Vehicles_CursorModeKeyboardOnly = m_Vehicles.FindAction("Cursor Mode (Keyboard Only)", throwIfNotFound: true);
+            m_Vehicles_Zoom = m_Vehicles.FindAction("Zoom", throwIfNotFound: true);
             // GUI
             m_GUI = asset.FindActionMap("GUI", throwIfNotFound: true);
             m_GUI_Pause = m_GUI.FindAction("Pause", throwIfNotFound: true);
-            m_GUI_Select = m_GUI.FindAction("Select", throwIfNotFound: true);
+            m_GUI_Point = m_GUI.FindAction("Point", throwIfNotFound: true);
             m_GUI_Navigate = m_GUI.FindAction("Navigate", throwIfNotFound: true);
+            m_GUI_PrimarySelect = m_GUI.FindAction("Primary Select", throwIfNotFound: true);
+            m_GUI_SecondarySelect = m_GUI.FindAction("Secondary Select", throwIfNotFound: true);
+            m_GUI_Scroll = m_GUI.FindAction("Scroll", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -726,6 +821,7 @@ namespace BlueScreenStudios.Input
         private readonly InputAction m_Vehicles_LookSteer;
         private readonly InputAction m_Vehicles_Fire;
         private readonly InputAction m_Vehicles_CursorModeKeyboardOnly;
+        private readonly InputAction m_Vehicles_Zoom;
         public struct VehiclesActions
         {
             private @InputActions m_Wrapper;
@@ -736,6 +832,7 @@ namespace BlueScreenStudios.Input
             public InputAction @LookSteer => m_Wrapper.m_Vehicles_LookSteer;
             public InputAction @Fire => m_Wrapper.m_Vehicles_Fire;
             public InputAction @CursorModeKeyboardOnly => m_Wrapper.m_Vehicles_CursorModeKeyboardOnly;
+            public InputAction @Zoom => m_Wrapper.m_Vehicles_Zoom;
             public InputActionMap Get() { return m_Wrapper.m_Vehicles; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -763,6 +860,9 @@ namespace BlueScreenStudios.Input
                     @CursorModeKeyboardOnly.started -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnCursorModeKeyboardOnly;
                     @CursorModeKeyboardOnly.performed -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnCursorModeKeyboardOnly;
                     @CursorModeKeyboardOnly.canceled -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnCursorModeKeyboardOnly;
+                    @Zoom.started -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnZoom;
+                    @Zoom.performed -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnZoom;
+                    @Zoom.canceled -= m_Wrapper.m_VehiclesActionsCallbackInterface.OnZoom;
                 }
                 m_Wrapper.m_VehiclesActionsCallbackInterface = instance;
                 if (instance != null)
@@ -785,6 +885,9 @@ namespace BlueScreenStudios.Input
                     @CursorModeKeyboardOnly.started += instance.OnCursorModeKeyboardOnly;
                     @CursorModeKeyboardOnly.performed += instance.OnCursorModeKeyboardOnly;
                     @CursorModeKeyboardOnly.canceled += instance.OnCursorModeKeyboardOnly;
+                    @Zoom.started += instance.OnZoom;
+                    @Zoom.performed += instance.OnZoom;
+                    @Zoom.canceled += instance.OnZoom;
                 }
             }
         }
@@ -794,15 +897,21 @@ namespace BlueScreenStudios.Input
         private readonly InputActionMap m_GUI;
         private IGUIActions m_GUIActionsCallbackInterface;
         private readonly InputAction m_GUI_Pause;
-        private readonly InputAction m_GUI_Select;
+        private readonly InputAction m_GUI_Point;
         private readonly InputAction m_GUI_Navigate;
+        private readonly InputAction m_GUI_PrimarySelect;
+        private readonly InputAction m_GUI_SecondarySelect;
+        private readonly InputAction m_GUI_Scroll;
         public struct GUIActions
         {
             private @InputActions m_Wrapper;
             public GUIActions(@InputActions wrapper) { m_Wrapper = wrapper; }
             public InputAction @Pause => m_Wrapper.m_GUI_Pause;
-            public InputAction @Select => m_Wrapper.m_GUI_Select;
+            public InputAction @Point => m_Wrapper.m_GUI_Point;
             public InputAction @Navigate => m_Wrapper.m_GUI_Navigate;
+            public InputAction @PrimarySelect => m_Wrapper.m_GUI_PrimarySelect;
+            public InputAction @SecondarySelect => m_Wrapper.m_GUI_SecondarySelect;
+            public InputAction @Scroll => m_Wrapper.m_GUI_Scroll;
             public InputActionMap Get() { return m_Wrapper.m_GUI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -815,12 +924,21 @@ namespace BlueScreenStudios.Input
                     @Pause.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnPause;
                     @Pause.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnPause;
                     @Pause.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnPause;
-                    @Select.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnSelect;
-                    @Select.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnSelect;
-                    @Select.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnSelect;
+                    @Point.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnPoint;
+                    @Point.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnPoint;
+                    @Point.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnPoint;
                     @Navigate.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnNavigate;
                     @Navigate.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnNavigate;
                     @Navigate.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnNavigate;
+                    @PrimarySelect.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnPrimarySelect;
+                    @PrimarySelect.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnPrimarySelect;
+                    @PrimarySelect.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnPrimarySelect;
+                    @SecondarySelect.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnSecondarySelect;
+                    @SecondarySelect.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnSecondarySelect;
+                    @SecondarySelect.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnSecondarySelect;
+                    @Scroll.started -= m_Wrapper.m_GUIActionsCallbackInterface.OnScroll;
+                    @Scroll.performed -= m_Wrapper.m_GUIActionsCallbackInterface.OnScroll;
+                    @Scroll.canceled -= m_Wrapper.m_GUIActionsCallbackInterface.OnScroll;
                 }
                 m_Wrapper.m_GUIActionsCallbackInterface = instance;
                 if (instance != null)
@@ -828,12 +946,21 @@ namespace BlueScreenStudios.Input
                     @Pause.started += instance.OnPause;
                     @Pause.performed += instance.OnPause;
                     @Pause.canceled += instance.OnPause;
-                    @Select.started += instance.OnSelect;
-                    @Select.performed += instance.OnSelect;
-                    @Select.canceled += instance.OnSelect;
+                    @Point.started += instance.OnPoint;
+                    @Point.performed += instance.OnPoint;
+                    @Point.canceled += instance.OnPoint;
                     @Navigate.started += instance.OnNavigate;
                     @Navigate.performed += instance.OnNavigate;
                     @Navigate.canceled += instance.OnNavigate;
+                    @PrimarySelect.started += instance.OnPrimarySelect;
+                    @PrimarySelect.performed += instance.OnPrimarySelect;
+                    @PrimarySelect.canceled += instance.OnPrimarySelect;
+                    @SecondarySelect.started += instance.OnSecondarySelect;
+                    @SecondarySelect.performed += instance.OnSecondarySelect;
+                    @SecondarySelect.canceled += instance.OnSecondarySelect;
+                    @Scroll.started += instance.OnScroll;
+                    @Scroll.performed += instance.OnScroll;
+                    @Scroll.canceled += instance.OnScroll;
                 }
             }
         }
@@ -864,12 +991,16 @@ namespace BlueScreenStudios.Input
             void OnLookSteer(InputAction.CallbackContext context);
             void OnFire(InputAction.CallbackContext context);
             void OnCursorModeKeyboardOnly(InputAction.CallbackContext context);
+            void OnZoom(InputAction.CallbackContext context);
         }
         public interface IGUIActions
         {
             void OnPause(InputAction.CallbackContext context);
-            void OnSelect(InputAction.CallbackContext context);
+            void OnPoint(InputAction.CallbackContext context);
             void OnNavigate(InputAction.CallbackContext context);
+            void OnPrimarySelect(InputAction.CallbackContext context);
+            void OnSecondarySelect(InputAction.CallbackContext context);
+            void OnScroll(InputAction.CallbackContext context);
         }
     }
 }

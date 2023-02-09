@@ -58,6 +58,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Zoom",
+                    "type": "Value",
+                    "id": "0a1673c2-df05-4464-973a-086b4b33e31d",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -401,6 +410,17 @@
                     "action": "Hover",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "85d6e942-1ea1-4e3b-8a94-b8d4dfb1cef6",
+                    "path": "<Mouse>/scroll",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Zoom",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },
@@ -418,13 +438,13 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Select",
-                    "type": "Button",
-                    "id": "6c6dc4e4-4b22-4480-862f-7afdf0db1ddd",
-                    "expectedControlType": "Button",
+                    "name": "Point",
+                    "type": "Value",
+                    "id": "77661a42-6928-4e01-9c74-98121785d7c1",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": false
+                    "initialStateCheck": true
                 },
                 {
                     "name": "Navigate",
@@ -434,9 +454,80 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Primary Select",
+                    "type": "Button",
+                    "id": "6c6dc4e4-4b22-4480-862f-7afdf0db1ddd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Secondary Select",
+                    "type": "Button",
+                    "id": "68c6e55e-5d32-4f1e-9c85-63b25f4cfc6a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Scroll",
+                    "type": "Value",
+                    "id": "c6ef34c4-6231-496e-a6f4-e40867b211ad",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
+                {
+                    "name": "",
+                    "id": "b31f2cc4-24d6-41c0-aefa-80aa0f8de98a",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Primary Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b8eaf3a5-2a33-460e-97c1-6aeea18fc934",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Primary Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ab8467b0-021a-4c56-962c-8f519e50e831",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Secondary Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "612d5d47-964a-47d7-b3b9-3f6b1e1c681b",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Secondary Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
                 {
                     "name": "",
                     "id": "973db9d6-1762-4900-9219-5f078170abce",
@@ -461,23 +552,12 @@
                 },
                 {
                     "name": "",
-                    "id": "b31f2cc4-24d6-41c0-aefa-80aa0f8de98a",
-                    "path": "<Mouse>/leftButton",
+                    "id": "1f6daf44-033b-4f3f-a92d-19d9b6111972",
+                    "path": "<Mouse>/scroll",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Select",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "b8eaf3a5-2a33-460e-97c1-6aeea18fc934",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Select",
+                    "action": "Scroll",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -590,6 +670,17 @@
                     "action": "Navigate",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "2e802a78-ac1d-49b3-86dd-b01d996f464f",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "Point",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

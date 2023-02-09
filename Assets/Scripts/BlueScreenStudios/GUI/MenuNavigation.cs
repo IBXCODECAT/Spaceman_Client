@@ -18,6 +18,7 @@ namespace BlueScreenStudios.GUI
 
         void LateUpdate()
         {
+            /*
             if (EventSystem.current.currentSelectedGameObject == null)
             {
                 if (Input.GetButtonDown(GameConstants.k_ButtonNameSubmit)
@@ -27,6 +28,7 @@ namespace BlueScreenStudios.GUI
                     EventSystem.current.SetSelectedGameObject(DefaultSelection.gameObject);
                 }
             }
+            */
         }
     }
 }
