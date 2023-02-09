@@ -9,7 +9,7 @@ namespace BlueScreenStudios.Common
 {
     public class StreamTextures : MonoBehaviour
     {
-        [SerializeField] Material material;
+        [SerializeField] Material material_original;
 
         [Header("Colors")]
         [SerializeField] internal Color baseColor;
@@ -23,9 +23,12 @@ namespace BlueScreenStudios.Common
 
         private string basePath = Application.streamingAssetsPath + "/Textures/";
 
+        private Material material;
+
         private void Awake()
         {
-            
+            material = material_original;
+
             StartCoroutine(LoadTextureFromCache(basePath + baseMap, "_BaseColorMap"));
             StartCoroutine(LoadTextureFromCache(basePath + baseMap, "_MainTex"));
 

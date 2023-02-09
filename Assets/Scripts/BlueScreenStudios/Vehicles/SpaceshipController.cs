@@ -79,7 +79,7 @@ namespace BlueScreenStudios.Vehicles
             thrustInputVector = context.ReadValue<Vector2>();
         }
 
-        private void Thrust_canceled(InputAction.CallbackContext obj)
+        private void Thrust_canceled(InputAction.CallbackContext context)
         {
             thrustInputVector = Vector2.zero;
         }
@@ -89,7 +89,7 @@ namespace BlueScreenStudios.Vehicles
             rollInputFloat = context.ReadValue<float>();
         }
 
-        private void Roll_canceled(InputAction.CallbackContext obj)
+        private void Roll_canceled(InputAction.CallbackContext context)
         {
             rollInputFloat = 0f;
         }
