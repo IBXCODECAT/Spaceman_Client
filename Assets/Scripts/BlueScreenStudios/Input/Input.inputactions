@@ -33,7 +33,7 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "Steering",
+                    "name": "Look/Steer",
                     "type": "Value",
                     "id": "a893e93a-aae0-4dc4-afd7-d761b9432701",
                     "expectedControlType": "Vector2",
@@ -152,7 +152,7 @@
                 {
                     "name": "Gamepad 2D Vector",
                     "id": "ae5d57fa-72d2-4489-8e50-b24d19dd94a9",
-                    "path": "2DVector",
+                    "path": "2DVector(mode=2)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -207,7 +207,7 @@
                 {
                     "name": "Keyboard 2D Vector",
                     "id": "681d0ce4-799f-480b-bad5-e6ba4a5f5805",
-                    "path": "2DVector",
+                    "path": "2DVector(mode=2)",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -277,7 +277,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Steering",
+                    "action": "Look/Steer",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -288,7 +288,7 @@
                     "interactions": "",
                     "processors": "InvertVector2",
                     "groups": "",
-                    "action": "Steering",
+                    "action": "Look/Steer",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -299,7 +299,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Steering",
+                    "action": "Look/Steer",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -310,7 +310,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Steering",
+                    "action": "Look/Steer",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -321,7 +321,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Steering",
+                    "action": "Look/Steer",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -332,7 +332,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Steering",
+                    "action": "Look/Steer",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },

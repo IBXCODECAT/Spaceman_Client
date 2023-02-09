@@ -9,7 +9,7 @@ namespace BlueScreenStudios.Common
 {
     public class StreamTextures : MonoBehaviour
     {
-        [SerializeField] Material material;
+        [SerializeField] Material material_original;
 
         [Header("Colors")]
         [SerializeField] internal Color baseColor;
@@ -21,10 +21,14 @@ namespace BlueScreenStudios.Common
         [SerializeField] internal string normalMap;
         [SerializeField] internal string emissionMap;
 
+        private string basePath = Application.streamingAssetsPath + "/Textures/";
+
+        private Material material;
+
         private void Awake()
         {
-            string basePath = Application.streamingAssetsPath + "/Textures/";
-            
+            material = material_original;
+
             StartCoroutine(LoadTextureFromCache(basePath + baseMap, "_BaseColorMap"));
             StartCoroutine(LoadTextureFromCache(basePath + baseMap, "_MainTex"));
 
@@ -40,21 +44,22 @@ namespace BlueScreenStudios.Common
 
         IEnumerator LoadTextureFromCache(string filePath, string mapName)
         {
-            if (!File.Exists(filePath))
+            if (filePath != basePath)
             {
-                Debug.LogError("Could not find file: " + filePath);
-                yield break;
+                if (!File.Exists(filePath))
+                {
+                    Debug.LogError("Could not find file: " + filePath);
+                    yield break;
+                }
+
+                UnityWebRequest uwr = UnityWebRequestTexture.GetTexture("file://" + filePath);
+
+                yield return uwr.SendWebRequest();
+
+                Texture2D texture = DownloadHandlerTexture.GetContent(uwr);
+
+                material.SetTexture(mapName, texture);
             }
-            
-            UnityWebRequest uwr = UnityWebRequestTexture.GetTexture("file://" + filePath);
-            
-            yield return uwr.SendWebRequest();
-            
-            Texture2D texture = DownloadHandlerTexture.GetContent(uwr);
-
-            material.SetTexture(mapName, texture);
-
-            Debug.Log("Done");
         }
     }
 }
