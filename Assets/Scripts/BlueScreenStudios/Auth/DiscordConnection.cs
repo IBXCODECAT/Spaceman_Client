@@ -19,7 +19,10 @@ namespace BlueScreenStudios.Auth
         [SerializeField] private string requestURL;
         [SerializeField] private short port;
 
-        private void Start()
+        /// <summary>
+        /// This method is called by the "Connect Discord" button
+        /// </summary>
+        public void ConnectDiscord()
         {
             listener = new HttpListener();
             listener.Prefixes.Add("http://localhost:" + port + "/");
@@ -67,6 +70,8 @@ namespace BlueScreenStudios.Auth
                 var data_text = new StreamReader(context.Request.InputStream, context.Request.ContentEncoding).ReadToEnd();
                 Debug.Log(data_text);
             }
+
+            context.Response.Redirect("https://discord.com/oauth2/authorized");
 
             context.Response.Close();
         }
