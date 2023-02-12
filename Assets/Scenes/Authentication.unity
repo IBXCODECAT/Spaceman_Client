@@ -1621,7 +1621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd77aa58214658f42a199d45eeecadbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestURL: https://discord.com/api/oauth2/authorize?client_id=988833332445978624&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fdiscord&response_type=code&scope=identify%20guilds
+  requestURL: https://discord.com/api/oauth2/authorize?client_id=988833332445978624&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fdiscord&response_type=code&scope=email%20identify%20guilds%20role_connections.write
   port: 8080
 --- !u!1 &674661792
 GameObject:
@@ -3291,7 +3291,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Connect Discord
+  m_Text: Log In WIth Discord
 --- !u!222 &1425687944
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3671,7 +3671,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: -310, y: 50}
+  m_AnchoredPosition: {x: -285, y: 50}
   m_SizeDelta: {x: 310, y: 60}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!95 &1583861143
