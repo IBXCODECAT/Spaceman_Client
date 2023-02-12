@@ -85,7 +85,8 @@ namespace BlueScreenStudios.Auth
             ExecuteCloudScriptRequest request = new ExecuteCloudScriptRequest
             {
                 FunctionName = "DiscordTokenExchange",
-                FunctionParameter = new { code = tokenExchangeCode}
+                FunctionParameter = new { code = tokenExchangeCode},
+                GeneratePlayStreamEvent = true
             };
 
             PlayFabClientAPI.ExecuteCloudScript(request, ExecuteCloudScriptCallback, OnError);
@@ -93,12 +94,15 @@ namespace BlueScreenStudios.Auth
 
         private void ExecuteCloudScriptCallback(ExecuteCloudScriptResult result)
         {
-            Debug.Log(result.FunctionResult.ToString());
+            if (result.FunctionResult == null)
+                Debug.LogError("Cloudscript function returned a null value");
+
+            Debug.Log("Cloudscript Callback: " + result.FunctionResult.ToString());
         }
 
         private void OnError(PlayFabError error)
         {
-            Debug.LogError(error.GenerateErrorReport());
+            Debug.LogError("Cloudscript Error: " + error.GenerateErrorReport());
         }
     }
 }
