@@ -1,11 +1,14 @@
+using Discord;
 using Newtonsoft.Json;
 using PlayFab;
 using PlayFab.ClientModels;
+using System;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEditor;
 
 namespace BlueScreenStudios.Auth
 {
@@ -217,6 +220,38 @@ namespace BlueScreenStudios.Auth
             GetUserFlags();
 
             guiAnimator.SetBool(animatorKeyConfirm, true);
+
+            LinkDiscordID();
+        }
+
+        internal void LinkDiscordID()
+        {
+            //Login Key = [DISCORD USER ID]  | [WINDOWS SYSTEM32 GUID A-F, 0-9]       | UNIX Epoch MiliSecond
+            //Login Key = ################## + {XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX} + ##########
+
+            string customID = "611649234848186388" + Guid.NewGuid() + DateTime.Now.Subtract(DateTime.UnixEpoch).TotalMilliseconds;
+            
+            //string userID = DataUtility.GetUserID().ToString();
+
+            LinkCustomIDRequest request = new LinkCustomIDRequest
+            {
+                CustomId = customID,
+                ForceLink = true,
+            };
+
+            PlayFabClientAPI.LinkCustomID(request, OnDiscordLinked, OnAPIError);
+
+            AuthResources.state = customID;
+        }
+
+        /// <summary>
+        /// Called when a Discord State is linked
+        /// </summary>
+        /// <param name="result">A result object containing helpufll information about the response</param>
+        private void OnDiscordLinked(LinkCustomIDResult result)
+        {
+            Debug.Log(result.ToJson().ToString());
+            GetComponent<DiscordConnection>().ConnectDiscord();
         }
 
         private void OnAPIError(PlayFabError error)
@@ -229,7 +264,6 @@ namespace BlueScreenStudios.Auth
 
             StartCoroutine(ResetAnimator());
         }
-
 
         IEnumerator ResetAnimator()
         {
