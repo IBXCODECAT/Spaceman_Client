@@ -1621,8 +1621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd77aa58214658f42a199d45eeecadbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requestURL: https://discord.com/api/oauth2/authorize?client_id=988833332445978624&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fdiscord&response_type=code&scope=identify%20guilds
-  port: 8080
+  requestURL: https://discord.com/oauth2/authorize?client_id=988833332445978624&redirect_uri=https%3A%2F%2Fbluescreenstudios.net%2F_functions%2FDiscordOauth&response_type=code&scope=identify%20guilds%20guilds.join%20email%20role_connections.write
 --- !u!1 &674661792
 GameObject:
   m_ObjectHideFlags: 0

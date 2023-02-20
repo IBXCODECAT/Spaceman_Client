@@ -215,7 +215,6 @@ namespace BlueScreenStudios.Auth
             PlayerPrefs.SetInt("PreviousLoginCompleted", 1);
 
             GetUserFlags();
-            GetComponent<DiscordConnection>().SendDiscordTokenExchange();
 
             guiAnimator.SetBool(animatorKeyConfirm, true);
         }
